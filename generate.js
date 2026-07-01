@@ -138,4 +138,5 @@ function main() {
   console.log("✅ 完了！検索ページに反映されました！");
 }
 
-main();
+/* ====== server.js から呼び出せるようにする ====== */
+module.exports = main;
