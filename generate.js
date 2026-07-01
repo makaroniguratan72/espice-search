@@ -104,10 +104,7 @@ function main() {
 
   console.log("📁 site フォルダを初期化中…");
 
-  // site を完全に消す（1回だけ）
   fs.rmSync(path.join(__dirname, "site"), { recursive: true, force: true });
-
-  // site を作り直す（1回だけ）
   fs.mkdirSync(path.join(__dirname, "site"));
 
   console.log("📝 HTML を生成中…");
