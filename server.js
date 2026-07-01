@@ -17,7 +17,10 @@ app.post("/api/add", (req, res) => {
   const { title, member, date, video_id, description, views } = req.body;
 
   const line = `"${title}","${member}","${date}","${video_id}","${description}","${views || 0}"\n`;
-  fs.appendFileSync(path.join(__dirname, "data", "data.csv"), line);
+ fs.appendFileSync(
+  path.join(__dirname, "data", "data.csv"),
+  line + "\n"
+);
 
   // HTML生成
   generate();
