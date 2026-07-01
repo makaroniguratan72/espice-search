@@ -44,41 +44,29 @@ h2 {
   line-height: 1.7;
 }
 
-/* ====== カード（検索結果に反映される） ====== */
+/* ====== カード ====== */
 .card {
   background: #fff;
   border-radius: 16px;
   padding: 20px;
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-  border-left: 6px solid #ff4b4b; /* デフォルト（ESPICE赤） */
+  border-left: 6px solid #ff4b4b;
 }
 
 /* ====== メンバー色 ====== */
-.color-nes {
-  border-left-color: #888; /* グレー */
-}
-
-.color-zoma {
-  border-left-color: #ff8c00; /* オレンジ */
-}
-
-.color-tushi {
-  border-left-color: #4fc3f7; /* ライトブルー */
-}
-
-.color-nagi {
-  border-left-color: #9acd32; /* 黄緑 */
-}
-
-.color-kosuke {
-  border-left-color: #9370db; /* 紫 */
-}
+.color-nes { border-left-color: #888; }
+.color-zoma { border-left-color: #ff8c00; }
+.color-tushi { border-left-color: #4fc3f7; }
+.color-nagi { border-left-color: #9acd32; }
+.color-kosuke { border-left-color: #9370db; }
 </style>
 
 </head>
 <body>
 
-<div class="card {{member_class}}">
+<div class="card {{member_class}}"
+     data-pagefind-filter="member:{{member}}"
+     data-pagefind-sort="date:{{date}},views:{{views}}">
 
   <!-- サムネ -->
   <img src="https://img.youtube.com/vi/{{video_id}}/hqdefault.jpg" class="thumb">
