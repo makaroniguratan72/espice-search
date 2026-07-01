@@ -1,17 +1,14 @@
 const fs = require('fs');
 const parse = require('csv-parse/sync').parse;
 
-// CSV を UTF-8 として読み込む
-const csvText = fs.readFileSync('data.csv', 'utf8');
+const csvText = fs.readFileSync('data/data.csv', 'utf8');
 const records = parse(csvText, {
   columns: true,
   skip_empty_lines: true
 });
 
-// site フォルダが無ければ作る
 if (!fs.existsSync('site')) fs.mkdirSync('site', { recursive: true });
 
-// メンバー色クラス対応表（ESPICE公式カラー）
 const memberColorClass = {
   "ネス": "nes",
   "ゾマ": "zoma",
@@ -20,29 +17,14 @@ const memberColorClass = {
   "KOSUKE": "kosuke"
 };
 
-// HTML テンプレート
 const tpl = r => {
-
-  // メンバーを ; で分割
   const memberList = r.members.split(';').map(m => m.trim());
+  const memberFilters = memberList.map(m => `data-pagefind-filter="member:${m}"`).join(' ');
+  const memberTags = memberList.map(m => `<span class="${memberColorClass[m] || ''}">${m}</span>`).join('');
 
-  // Pagefind フィルタ属性
-  const memberFilters = memberList
-    .map(m => `data-pagefind-filter="member:${m}"`)
-    .join(' ');
-
-  // 色タグ生成
-  const memberTags = memberList
-    .map(m => `<span class="${memberColorClass[m] || ''}">${m}</span>`)
-    .join('');
-
-  // YouTube サムネイル生成
   let thumbnail = "";
   const match = r.url.match(/v=([^&]+)/);
-  if (match) {
-    const videoId = match[1];
-    thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-  }
+  if (match) thumbnail = `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg`;
 
   return `<!doctype html>
 <html lang="ja">
@@ -62,7 +44,7 @@ ${r.date}
 
   <h1>${r.title}</h1>
 
-  <img src="${thumbnail}" alt="thumbnail" class="thumb">
+  <img src="${thumbnail}" class="thumb">
 
   <p class="title_kana">${r.title_kana}</p>
 
@@ -71,13 +53,17 @@ ${r.date}
   <p class="song">${r.song}</p>
   <p class="date" data-date="${r.date}">${r.date}</p>
 
+  <!-- ★ views を埋め込む（Pagefind用） -->
+  <p class="views" data-pagefind-filter="views:${r.views}">
+    再生回数：${r.views}
+  </p>
+
   <a class="url" href="${r.url}">動画を見る</a>
 </article>
 </body>
 </html>`;
 };
 
-// HTML を生成
 records.forEach(r => {
   fs.writeFileSync(`site/${r.id}.html`, tpl(r), 'utf8');
 });
