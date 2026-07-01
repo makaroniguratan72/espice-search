@@ -102,10 +102,13 @@ function main() {
     skip_empty_lines: true
   });
 
-  // site フォルダを初期化
-  if (!fs.existsSync("site")) fs.mkdirSync("site");
-  fs.rmSync("site", { recursive: true, force: true });
-  fs.mkdirSync("site");
+  console.log("📁 site フォルダを初期化中…");
+
+  // site を完全に消す（1回だけ）
+  fs.rmSync(path.join(__dirname, "site"), { recursive: true, force: true });
+
+  // site を作り直す（1回だけ）
+  fs.mkdirSync(path.join(__dirname, "site"));
 
   console.log("📝 HTML を生成中…");
 
@@ -121,7 +124,7 @@ function main() {
     };
 
     const html = generateHTML(data);
-    fs.writeFileSync(`site/${String(i + 1).padStart(3, "0")}.html`, html, "utf-8");
+    fs.writeFileSync(path.join(__dirname, "site", `${String(i + 1).padStart(3, "0")}.html`), html, "utf-8");
   });
 
   console.log("🔍 Pagefind を生成中…");
@@ -129,20 +132,17 @@ function main() {
 
   console.log("📦 public/pagefind を更新中…");
 
-  const srcDir = "site/pagefind";
-  const destDir = "public/pagefind";
+  const srcDir = path.join(__dirname, "site", "pagefind");
+  const destDir = path.join(__dirname, "public", "pagefind");
 
-  // public/pagefind を初期化
   fs.rmSync(destDir, { recursive: true, force: true });
   fs.mkdirSync(destDir, { recursive: true });
 
-  // site/pagefind の中身をすべてコピー
   fs.readdirSync(srcDir).forEach(file => {
-    fs.copyFileSync(`${srcDir}/${file}`, `${destDir}/${file}`);
+    fs.copyFileSync(path.join(srcDir, file), path.join(destDir, file));
   });
 
   console.log("✅ 完了！検索ページに反映されました！");
 }
 
-/* ====== server.js から呼び出せるようにする ====== */
 module.exports = main;
