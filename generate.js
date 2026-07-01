@@ -71,7 +71,10 @@ h2 {
 </head>
 <body>
 
-<div class="card ${data.member_class}">
+<div class="card ${data.member_class}"
+     data-pagefind-filter="member:${data.member}"
+     data-pagefind-sort="date:${data.date},views:${data.views}">
+
   <img src="https://img.youtube.com/vi/${data.video_id}/hqdefault.jpg" class="thumb">
 
   <h2>${data.title}</h2>
@@ -95,7 +98,7 @@ function main() {
 
   const csvText = fs.readFileSync("data.csv", "utf-8");
   const records = parse(csvText, {
-    columns: ["title", "member", "date", "video_id", "description"],
+    columns: ["title", "member", "date", "video_id", "description", "views"],
     skip_empty_lines: true
   });
 
@@ -113,6 +116,7 @@ function main() {
       date: row.date,
       video_id: row.video_id,
       description: row.description,
+      views: row.views || 0,
       member_class: memberColorClass(row.member)
     };
 
@@ -121,7 +125,6 @@ function main() {
   });
 
   console.log("🔍 Pagefind を生成中…");
-
   execSync("npx pagefind --site site");
 
   console.log("📦 public/pagefind を更新中…");
