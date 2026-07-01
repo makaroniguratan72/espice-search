@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const { parse } = require("csv-parse");
+const { execSync } = require("child_process");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -11,19 +11,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/site", express.static(path.join(__dirname, "site")));
 
-/* ====== 登録API ====== */
+/* ===== generate.js を関数として読み込む ===== */
+const generate = require("./generate.js");
+
+/* ===== 登録API ===== */
 app.post("/api/add", (req, res) => {
-  const { title, member, date, video_id, description } = req.body;
+  const { title, member, date, video_id, description, views } = req.body;
 
-  const line = `"${title}","${member}","${date}","${video_id}","${description}"\n`;
-
+  // CSVに追記
+  const line = `"${title}","${member}","${date}","${video_id}","${description}","${views || 0}"\n`;
   fs.appendFileSync("data.csv", line);
 
-  // HTML生成
-  require("./generate.js")();
+  // HTML生成（generate.js の main を呼ぶ）
+  generate();
 
   // Pagefind再生成
-  const { execSync } = require("child_process");
   execSync("npx pagefind --site site");
   execSync("cp -r site/pagefind public/pagefind");
 
