@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>作品登録フォーム</title>
+
+<style>
+  body {
+    font-family: "Noto Sans JP", sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+  }
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: auto;
+  }
+  label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+  }
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  .members {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .members label {
+    font-weight: normal;
+  }
+  button {
+    margin-top: 20px;
+    padding: 12px;
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>作品登録フォーム</h1>
+
+<form id="form">
+  <label>作品ID（例：001）</label>
+  <input name="id" required>
+
+  <label>タイトル</label>
+  <input name="title" required>
+
+  <label>タイトル（かな）</label>
+  <input name="title_kana">
+
+  <label>メンバー</label>
+  <div class="members">
+    <label><input type="checkbox" name="members" value="ネス"> ネス</label>
+    <label><input type="checkbox" name="members" value="ゾマ"> ゾマ</label>
+    <label><input type="checkbox" name="members" value="とぅーし"> とぅーし</label>
+    <label><input type="checkbox" name="members" value="凪"> 凪</label>
+    <label><input type="checkbox" name="members" value="KOSUKE"> KOSUKE</label>
+  </div>
+
+  <label>曲名</label>
+  <input name="song">
+
+  <label>日付（例：2024-05-01）</label>
+  <input name="date" type="date">
+
+  <label>YouTube URL</label>
+  <input name="url">
+
+  <button type="submit">登録する</button>
+</form>
+
+<script>
+document.getElementById("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = new FormData(e.target);
+
+  const members = [...document.querySelectorAll("input[name='members']:checked")]
+    .map(x => x.value)
+    .join(";");
+
+  const data = {
+    id: form.get("id"),
+    title: form.get("title"),
+    title_kana: form.get("title_kana"),
+    members,
+    song: form.get("song"),
+    date: form.get("date"),
+    url: form.get("url")
+  };
+
+  const res = await fetch("http://localhost:3001/add", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  alert("登録しました！");
+});
+</script>
+
+</body>
+</html>
