@@ -129,11 +129,17 @@ function main() {
 
   console.log("📦 public/pagefind を更新中…");
 
-  if (!fs.existsSync("public")) fs.mkdirSync("public");
-  fs.rmSync("public/pagefind", { recursive: true, force: true });
-  fs.mkdirSync("public/pagefind");
+  const srcDir = "site/pagefind";
+  const destDir = "public/pagefind";
 
-  execSync("cp -r site/pagefind/* public/pagefind/");
+  // public/pagefind を初期化
+  fs.rmSync(destDir, { recursive: true, force: true });
+  fs.mkdirSync(destDir, { recursive: true });
+
+  // site/pagefind の中身をすべてコピー
+  fs.readdirSync(srcDir).forEach(file => {
+    fs.copyFileSync(`${srcDir}/${file}`, `${destDir}/${file}`);
+  });
 
   console.log("✅ 完了！検索ページに反映されました！");
 }
