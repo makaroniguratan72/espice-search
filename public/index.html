@@ -9,19 +9,62 @@
 <script src="/pagefind/pagefind-ui.js"></script>
 
 <style>
-/* ====== 全体 ====== */
-body {
-  font-family: "Noto Sans JP", sans-serif;
-  background: #f5f5f5;
-  margin: 0;
-  padding: 20px;
-}
-
-/* ====== タイトル ====== */
-h1 {
-  font-size: 28px;
+/* ====== ヘッダー（WIKI風） ====== */
+header {
+  background: #111;
+  color: #fff;
+  padding: 16px 20px;
+  font-size: 22px;
   font-weight: bold;
   margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* ====== 登録フォームボタン ====== */
+#register-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff4b4b, #ff7b7b);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+#register-btn:hover {
+  background: linear-gradient(135deg, #ff6b6b, #ff9b9b);
+}
+
+/* ====== フィルターカード ====== */
+#filter-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  margin-bottom: 20px;
+}
+
+/* ====== フィルターUI ====== */
+#filters label {
+  margin-right: 12px;
+  font-size: 14px;
+}
+
+/* ====== ソートボタン（WIKI風） ====== */
+.sort-btn {
+  padding: 10px 16px;
+  margin-right: 10px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #444, #666);
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.sort-btn:hover {
+  background: linear-gradient(135deg, #666, #888);
 }
 
 /* ====== 検索ボックス ====== */
@@ -41,10 +84,9 @@ h1 {
   padding: 20px;
   margin-bottom: 26px;
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-  border-left: 6px solid #ff4b4b; /* デフォルト（ESPICE赤） */
+  border-left: 6px solid #ff4b4b;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-
 .pagefind-ui__result:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.18);
@@ -72,12 +114,10 @@ h1 {
   color: #666;
   margin-bottom: 12px;
 }
-
 .member {
   font-weight: bold;
   margin-right: 10px;
 }
-
 .date {
   opacity: 0.8;
 }
@@ -89,36 +129,74 @@ h1 {
   line-height: 1.7;
 }
 
-/* ====== URL ====== */
-.pagefind-ui__result-url {
-  font-size: 12px;
-  color: #888;
-  margin-top: 10px;
-}
-
 /* ====== メンバー色 ====== */
 .color-nes { border-left-color: #888; }
 .color-zoma { border-left-color: #ff8c00; }
 .color-tushi { border-left-color: #4fc3f7; }
 .color-nagi { border-left-color: #9acd32; }
 .color-kosuke { border-left-color: #9370db; }
-.color-default { border-left-color: #ff4b4b; }
 </style>
 </head>
 
 <body>
 
-<h1>ESPICE Search</h1>
+<header>ESPICE Search</header>
+
+<!-- 登録フォームへのリンク -->
+<a id="register-btn" href="/register.html">＋ 動画を登録する</a>
+
+<!-- フィルターカード -->
+<div id="filter-card">
+  <div id="filters">
+    <label><input type="checkbox" class="member-filter" value="ネス"> ネス</label>
+    <label><input type="checkbox" class="member-filter" value="ゾマやかじゃない！"> ゾマやかじゃない！</label>
+    <label><input type="checkbox" class="member-filter" value="とぅーし"> とぅーし</label>
+    <label><input type="checkbox" class="member-filter" value="凪"> 凪</label>
+    <label><input type="checkbox" class="member-filter" value="KOSUKE"> KOSUKE</label>
+  </div>
+
+  <div id="sort-buttons">
+    <button class="sort-btn" data-sort="date:desc">新着順</button>
+    <button class="sort-btn" data-sort="views:desc">再生数順</button>
+  </div>
+</div>
 
 <div id="search"></div>
 
 <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    new PagefindUI({
-      element: "#search",
-      showImages: true
+window.addEventListener('DOMContentLoaded', () => {
+  const ui = new PagefindUI({
+    element: "#search",
+    showImages: true
+  });
+
+  /* ===== 初期表示：新着順で全件表示 ===== */
+  setTimeout(() => {
+    ui.setSort("date:desc");
+    ui.triggerSearch("");
+  }, 200);
+
+  /* ===== メンバーフィルター ===== */
+  const filters = document.querySelectorAll(".member-filter");
+  filters.forEach(f => {
+    f.addEventListener("change", () => {
+      const selected = [...filters]
+        .filter(x => x.checked)
+        .map(x => `member:${x.value}`);
+
+      ui.setFilters(selected);
+      ui.setSort("date:desc");
     });
   });
+
+  /* ===== ソートボタン ===== */
+  const sortButtons = document.querySelectorAll(".sort-btn");
+  sortButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      ui.setSort(btn.dataset.sort);
+    });
+  });
+});
 </script>
 
 </body>
