@@ -1,29 +1,101 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>富士急ハイランド「ZOKKON」前でHello!My World!!踊ってみた</title>
+<meta charset="UTF-8">
+<title>{{title}}</title>
+
+<style>
+/* ====== サムネ ====== */
+.thumb {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+/* ====== タイトル ====== */
+h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #000;
+}
+
+/* ====== メタ情報 ====== */
+.meta {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.member {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.date {
+  opacity: 0.8;
+}
+
+/* ====== 説明文 ====== */
+.desc {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.7;
+}
+
+/* ====== カード（検索結果に反映される） ====== */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  border-left: 6px solid #ff4b4b; /* デフォルト（ESPICE赤） */
+}
+
+/* ====== メンバー色 ====== */
+.color-nes {
+  border-left-color: #888; /* グレー */
+}
+
+.color-zoma {
+  border-left-color: #ff8c00; /* オレンジ */
+}
+
+.color-tushi {
+  border-left-color: #4fc3f7; /* ライトブルー */
+}
+
+.color-nagi {
+  border-left-color: #9acd32; /* 黄緑 */
+}
+
+.color-kosuke {
+  border-left-color: #9370db; /* 紫 */
+}
+</style>
+
 </head>
 <body>
-<article class="pagefind-doc">
 
-富士急ハイランド「ZOKKON」前でHello!My World!!踊ってみた
-はろーまいわーるど
-メンバーネス;メンバーゾマ１;とぅーし
-とにかく爽快MAXな乗り心地で、斬新なバイクライド型のコースターで自分たちが運転しているような気分になれました！
-2023-07-20
+<div class="card {{member_class}}">
 
-  <h1>富士急ハイランド「ZOKKON」前でHello!My World!!踊ってみた</h1>
+  <!-- サムネ -->
+  <img src="https://img.youtube.com/vi/{{video_id}}/hqdefault.jpg" class="thumb">
 
-  <p class="title_kana">はろーまいわーるど</p>
+  <!-- タイトル -->
+  <h2>{{title}}</h2>
 
-  <!-- メンバーにフィルタ属性を付与 -->
-  <p class="members" data-pagefind-filter="member:メンバーネス" data-pagefind-filter="member:メンバーゾマ１" data-pagefind-filter="member:とぅーし">メンバーネス;メンバーゾマ１;とぅーし</p>
+  <!-- メタ情報 -->
+  <div class="meta">
+    <span class="member">{{member}}</span>
+    <span class="date">{{date}}</span>
+  </div>
 
-  <p class="song">とにかく爽快MAXな乗り心地で、斬新なバイクライド型のコースターで自分たちが運転しているような気分になれました！</p>
-  <p class="date">2023-07-20</p>
-  <a class="url" href="https://www.youtube.com/watch?v=LnZ6Paltouk&list=PLNGIyx82yd86aN2zsW64p-efimemvDcTM&index=26">動画を見る</a>
-</article>
+  <!-- 説明文 -->
+  <p class="desc">{{description}}</p>
+
+</div>
+
 </body>
 </html>
