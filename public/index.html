@@ -2,200 +2,106 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>ESPICE Search</title>
+<title>ESPICE 踊ってみた検索</title>
 
 <!-- Pagefind UI -->
 <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
 <script src="/pagefind/pagefind-ui.js"></script>
 
 <style>
-/* ====== ヘッダー（WIKI風） ====== */
-header {
-  background: #111;
-  color: #fff;
-  padding: 16px 20px;
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-/* ====== 登録フォームボタン ====== */
-#register-btn {
-  display: inline-block;
-  background: linear-gradient(135deg, #ff4b4b, #ff7b7b);
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: bold;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-#register-btn:hover {
-  background: linear-gradient(135deg, #ff6b6b, #ff9b9b);
-}
-
-/* ====== フィルターカード ====== */
-#filter-card {
-  background: #fff;
-  padding: 16px;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  margin-bottom: 20px;
-}
-
-/* ====== フィルターUI ====== */
-#filters label {
-  margin-right: 12px;
-  font-size: 14px;
-}
-
-/* ====== ソートボタン（WIKI風） ====== */
-.sort-btn {
-  padding: 10px 16px;
-  margin-right: 10px;
-  border-radius: 10px;
-  border: none;
-  background: linear-gradient(135deg, #444, #666);
-  color: #fff;
-  cursor: pointer;
-  font-size: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-.sort-btn:hover {
-  background: linear-gradient(135deg, #666, #888);
-}
-
-/* ====== 検索ボックス ====== */
-.pagefind-ui__search-input {
-  border-radius: 12px;
-  padding: 14px;
-  font-size: 18px;
-  border: 2px solid #ddd;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  margin-bottom: 20px;
-}
-
-/* ====== 検索結果カード（WIKI風） ====== */
-.pagefind-ui__result {
-  background: #fff;
-  border-radius: 16px;
+body {
+  font-family: sans-serif;
+  background: #f7f7f7;
   padding: 20px;
-  margin-bottom: 26px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-  border-left: 6px solid #ff4b4b;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.pagefind-ui__result:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.18);
 }
 
-/* ====== サムネ ====== */
-.thumb {
-  width: 100%;
+h1 {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.filter-box {
+  margin: 20px 0;
+  padding: 15px;
+  background: #fff;
   border-radius: 12px;
-  margin-bottom: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-/* ====== タイトル ====== */
-.pagefind-ui__result-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 12px;
-  color: #000;
+.sort-box {
+  margin: 20px 0;
+  padding: 15px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-/* ====== メタ情報 ====== */
-.meta {
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 12px;
+.result-box {
+  margin-top: 30px;
 }
-.member {
-  font-weight: bold;
-  margin-right: 10px;
-}
-.date {
-  opacity: 0.8;
-}
-
-/* ====== 抜粋 ====== */
-.pagefind-ui__result-excerpt {
-  font-size: 14px;
-  color: #444;
-  line-height: 1.7;
-}
-
-/* ====== メンバー色 ====== */
-.color-nes { border-left-color: #888; }
-.color-zoma { border-left-color: #ff8c00; }
-.color-tushi { border-left-color: #4fc3f7; }
-.color-nagi { border-left-color: #9acd32; }
-.color-kosuke { border-left-color: #9370db; }
 </style>
 </head>
 
 <body>
 
-<header>ESPICE Search</header>
+<h1>ESPICE 踊ってみた検索</h1>
 
-<!-- 登録フォームへのリンク -->
-<a id="register-btn" href="/register.html">＋ 動画を登録する</a>
-
-<!-- フィルターカード -->
-<div id="filter-card">
-  <div id="filters">
-    <label><input type="checkbox" class="member-filter" value="ネス"> ネス</label>
-    <label><input type="checkbox" class="member-filter" value="ゾマやかじゃない！"> ゾマやかじゃない！</label>
-    <label><input type="checkbox" class="member-filter" value="とぅーし"> とぅーし</label>
-    <label><input type="checkbox" class="member-filter" value="凪"> 凪</label>
-    <label><input type="checkbox" class="member-filter" value="KOSUKE"> KOSUKE</label>
-  </div>
-
-  <div id="sort-buttons">
-    <button class="sort-btn" data-sort="date:desc">新着順</button>
-    <button class="sort-btn" data-sort="views:desc">再生数順</button>
-  </div>
-</div>
-
+<!-- ====== 検索UI ====== -->
 <div id="search"></div>
 
+<!-- ====== フィルター ====== -->
+<div class="filter-box">
+  <h3>メンバー絞り込み</h3>
+
+  <label><input type="checkbox" class="member-filter" value="ネス"> ネス</label><br>
+  <label><input type="checkbox" class="member-filter" value="ゾマやかじゃない！"> ゾマやかじゃない！</label><br>
+  <label><input type="checkbox" class="member-filter" value="とぅーし"> とぅーし</label><br>
+  <label><input type="checkbox" class="member-filter" value="凪"> 凪</label><br>
+  <label><input type="checkbox" class="member-filter" value="KOSUKE"> KOSUKE</label><br>
+</div>
+
+<!-- ====== ソート ====== -->
+<div class="sort-box">
+  <h3>ソート</h3>
+
+  <button class="sort-btn" data-sort="date">新着順</button>
+  <button class="sort-btn" data-sort="views">再生数順</button>
+</div>
+
+<!-- ====== 結果表示 ====== -->
+<div class="result-box" id="results"></div>
+
 <script>
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener("DOMContentLoaded", () => {
+
+  /* ===== PagefindUI 初期化（ここが最重要） ===== */
   const ui = new PagefindUI({
     element: "#search",
-    showImages: true
+    basePath: "/site",   // ← これで /site/001.html が開くようになる
+    showImages: false
   });
 
-  /* ===== 初期表示：新着順で全件表示 ===== */
-  setTimeout(() => {
-    ui.setSort("date:desc");
-    ui.triggerSearch("");
-  }, 200);
+  /* ===== メンバー絞り込み ===== */
+  document.querySelectorAll(".member-filter").forEach(cb => {
+    cb.addEventListener("change", () => {
+      const checked = [...document.querySelectorAll(".member-filter:checked")].map(x => x.value);
 
-  /* ===== メンバーフィルター ===== */
-  const filters = document.querySelectorAll(".member-filter");
-  filters.forEach(f => {
-    f.addEventListener("change", () => {
-      const selected = [...filters]
-        .filter(x => x.checked)
-        .map(x => `member:${x.value}`);
-
-      ui.setFilters(selected);
-      ui.setSort("date:desc");
+      if (checked.length === 0) {
+        ui.clearFilters();
+      } else {
+        ui.setFilters([{ filter: "member", value: checked }]);
+      }
     });
   });
 
-  /* ===== ソートボタン ===== */
-  const sortButtons = document.querySelectorAll(".sort-btn");
-  sortButtons.forEach(btn => {
+  /* ===== ソート ===== */
+  document.querySelectorAll(".sort-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      ui.setSort(btn.dataset.sort);
+      const sortKey = btn.dataset.sort;
+      ui.setSort(sortKey);
     });
   });
+
 });
 </script>
 
