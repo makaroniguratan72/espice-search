@@ -20,7 +20,8 @@ app.post("/api/add", (req, res) => {
 
   // CSVに追記
   const line = `"${title}","${member}","${date}","${video_id}","${description}","${views || 0}"\n`;
-  fs.appendFileSync("data.csv", line);
+  fs.appendFileSync(path.join(__dirname, "data", "data.csv"), line);
+
 
   // HTML生成（generate.js の main を呼ぶ）
   generate();
