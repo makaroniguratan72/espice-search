@@ -96,7 +96,7 @@ h2 {
 function main() {
   console.log("📄 CSV を読み込み中…");
 
-  const csvText = fs.readFileSync("data.csv", "utf-8");
+  const csvText = fs.readFileSync(path.join(__dirname, "data", "data.csv"), "utf-8");
   const records = parse(csvText, {
     columns: ["title", "member", "date", "video_id", "description", "views"],
     skip_empty_lines: true
