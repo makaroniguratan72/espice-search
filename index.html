@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ESPICE Search</title>
+
+<!-- Pagefind UI -->
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+
+<style>
+/* ====== 全体 ====== */
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 20px;
+}
+
+/* ====== タイトル ====== */
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* ====== 検索ボックス ====== */
+.pagefind-ui__search-input {
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 18px;
+  border: 2px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+/* ====== 検索結果カード（WIKI風） ====== */
+.pagefind-ui__result {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 26px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  border-left: 6px solid #ff4b4b; /* デフォルト（ESPICE赤） */
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pagefind-ui__result:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+}
+
+/* ====== サムネ ====== */
+.thumb {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+/* ====== タイトル ====== */
+.pagefind-ui__result-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #000;
+}
+
+/* ====== メタ情報 ====== */
+.meta {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.member {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.date {
+  opacity: 0.8;
+}
+
+/* ====== 抜粋 ====== */
+.pagefind-ui__result-excerpt {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.7;
+}
+
+/* ====== URL ====== */
+.pagefind-ui__result-url {
+  font-size: 12px;
+  color: #888;
+  margin-top: 10px;
+}
+
+/* ====== メンバー色 ====== */
+.color-nes { border-left-color: #888; }
+.color-zoma { border-left-color: #ff8c00; }
+.color-tushi { border-left-color: #4fc3f7; }
+.color-nagi { border-left-color: #9acd32; }
+.color-kosuke { border-left-color: #9370db; }
+.color-default { border-left-color: #ff4b4b; }
+</style>
+</head>
+
+<body>
+
+<h1>ESPICE Search</h1>
+
+<div id="search"></div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    new PagefindUI({
+      element: "#search",
+      showImages: true
+    });
+  });
+</script>
+
+</body>
+</html>
