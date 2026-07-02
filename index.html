@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ESPICE Search</title>
+
+    <!-- Pagefind の JS と CSS（pages/pagefind/ にある） -->
+    <script src="pages/pagefind/pagefind-ui.js"></script>
+    <link href="pages/pagefind/pagefind-ui.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <h1>ESPICE 踊ってみた検索</h1>
+
+    <!-- 検索ボックス -->
+    <input id="search" placeholder="検索…" />
+
+    <!-- 結果表示エリア -->
+    <div id="results"></div>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", async () => {
+        const pagefind = await new PagefindUI({
+          element: "#results",
+          showSubResults: true
+        });
+
+        document.querySelector("#search").addEventListener("input", (e) => {
+          pagefind.search(e.target.value);
+        });
+      });
+    </script>
+  </body>
+</html>
