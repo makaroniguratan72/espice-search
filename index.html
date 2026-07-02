@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>ESPICE Search</title>
 
-    <!-- Pagefind UI（絶対パスで読み込む） -->
+    <!-- Pagefind 1.x UI（絶対パス） -->
     <script src="/pagefind/pagefind-ui.js"></script>
     <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
 
@@ -35,25 +35,7 @@
         padding: 12px;
         margin-bottom: 14px;
         box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        display: flex;
-        gap: 12px;
-      }
-
-      .thumb {
-        width: 120px;
-        height: 90px;
-        object-fit: cover;
-        border-radius: 6px;
-      }
-
-      @media (max-width: 600px) {
-        .result-card {
-          flex-direction: column;
-        }
-        .thumb {
-          width: 100%;
-          height: auto;
-        }
+        cursor: pointer;
       }
 
       .title {
@@ -62,26 +44,9 @@
         margin-bottom: 6px;
       }
 
-      .member-tag {
-        display: inline-block;
-        padding: 2px 6px;
-        border-radius: 6px;
-        font-size: 12px;
-        font-weight: bold;
-        color: #fff;
-        margin-right: 4px;
-      }
-
-      .member-nes { background-color: #888; }
-      .member-zoma { background-color: #ff8800; }
-      .member-tooshi { background-color: #66ccff; }
-      .member-nagi { background-color: #99cc33; }
-      .member-kosuke { background-color: #9933cc; }
-
-      .meta {
-        font-size: 12px;
+      .excerpt {
+        font-size: 13px;
         color: #666;
-        margin-top: 4px;
       }
 
       .add-link {
@@ -109,16 +74,16 @@
 
     <script>
       window.addEventListener("DOMContentLoaded", async () => {
-        const pagefind = await new PagefindUI({
+        const ui = new PagefindUI({
           element: "#results",
-          showSubResults: true
+          basePath: "/pagefind"
         });
 
         document.querySelector("#search").addEventListener("input", (e) => {
-          pagefind.search(e.target.value);
+          ui.search(e.target.value);
         });
 
-        pagefind.search("");
+        ui.search("");
       });
     </script>
   </body>
