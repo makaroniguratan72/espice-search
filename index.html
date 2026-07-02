@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <title>ESPICE Search</title>
 
-    <!-- Pagefind UI（絶対パスに修正） -->
+    <!-- Pagefind UI（絶対パスで読み込む） -->
     <script src="/pagefind/pagefind-ui.js"></script>
     <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
 
-    <!-- ====== デザイン（スマホ対応・Wiki風） ====== -->
     <style>
       body {
         font-family: sans-serif;
@@ -21,7 +20,6 @@
         margin-bottom: 12px;
       }
 
-      /* 検索ボックス */
       #search {
         width: 100%;
         padding: 10px;
@@ -31,7 +29,6 @@
         margin-bottom: 16px;
       }
 
-      /* 結果カード */
       .result-card {
         background: #fff;
         border-radius: 10px;
@@ -42,7 +39,6 @@
         gap: 12px;
       }
 
-      /* サムネイル */
       .thumb {
         width: 120px;
         height: 90px;
@@ -50,7 +46,6 @@
         border-radius: 6px;
       }
 
-      /* スマホでは縦並びにする */
       @media (max-width: 600px) {
         .result-card {
           flex-direction: column;
@@ -61,14 +56,12 @@
         }
       }
 
-      /* タイトル */
       .title {
         font-size: 16px;
         font-weight: bold;
         margin-bottom: 6px;
       }
 
-      /* メンバータグ */
       .member-tag {
         display: inline-block;
         padding: 2px 6px;
@@ -85,14 +78,12 @@
       .member-nagi { background-color: #99cc33; }
       .member-kosuke { background-color: #9933cc; }
 
-      /* 再生数・投稿日 */
       .meta {
         font-size: 12px;
         color: #666;
         margin-top: 4px;
       }
 
-      /* 動画登録リンク */
       .add-link {
         margin-top: 40px;
         text-align: center;
@@ -108,18 +99,14 @@
   <body>
     <h1>ESPICE 踊ってみた検索</h1>
 
-    <!-- 検索ボックス -->
     <input id="search" placeholder="検索…" />
 
-    <!-- 結果表示エリア -->
     <div id="results"></div>
 
-    <!-- 動画登録リンク（下の方に控えめに） -->
     <div class="add-link">
       <a href="add.html">動画を登録する</a>
     </div>
 
-    <!-- ====== Pagefind UI 初期化 ====== -->
     <script>
       window.addEventListener("DOMContentLoaded", async () => {
         const pagefind = await new PagefindUI({
@@ -127,12 +114,10 @@
           showSubResults: true
         });
 
-        // 入力イベントで検索実行
         document.querySelector("#search").addEventListener("input", (e) => {
           pagefind.search(e.target.value);
         });
 
-        // 初期表示：新着順で全部表示
         pagefind.search("");
       });
     </script>
