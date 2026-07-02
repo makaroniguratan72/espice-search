@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 
-// 静的ファイル（index.html や pagefind）を配信
+// 静的ファイル配信（ここが超重要）
 app.use(express.static(__dirname));
 app.use("/pagefind", express.static(path.join(__dirname, "pagefind")));
 app.use("/pages", express.static(path.join(__dirname, "pages")));
@@ -28,7 +28,6 @@ app.post("/add", async (req, res) => {
 
     const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`;
 
-    // 既存CSV取得
     const getRes = await fetch(apiUrl, {
       headers: { Authorization: `Bearer ${TOKEN}` }
     });
@@ -38,7 +37,6 @@ app.post("/add", async (req, res) => {
     const updatedContent = oldContent + newLine;
     const encodedContent = Buffer.from(updatedContent).toString("base64");
 
-    // CSV更新
     const putRes = await fetch(apiUrl, {
       method: "PUT",
       headers: {
@@ -63,7 +61,6 @@ app.post("/add", async (req, res) => {
   }
 });
 
-// Web Service 起動
 app.listen(3000, () => {
   console.log("ESPICE Search Web Service running on port 3000");
 });
