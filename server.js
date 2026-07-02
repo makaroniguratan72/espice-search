@@ -1,33 +1,5 @@
-import express from "express";
-import fetch from "node-fetch";
-import path from "path";
-import { fileURLToPath } from "url";
+import { execSync } from "child_process";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const app = express();
-app.use(express.json());
-
-// ★ public を静的配信（最重要）
-app.use(express.static(path.join(__dirname, "public")));
-
-// ★ pagefind と pages も public 内を配信
-app.use("/pagefind", express.static(path.join(__dirname, "public/pagefind")));
-app.use("/pages", express.static(path.join(__dirname, "public/pages")));
-
-// ★ SPA のルートは "/" のみ
-//    これで /pages/002.html などは 404 を返すようになる
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/index.html"));
-});
-
-const OWNER = "makaroniguratan72";
-const REPO = "espice-search";
-const FILE_PATH = "data.csv";
-const TOKEN = process.env.GITHUB_TOKEN;
-
-// CSV 追記 API
 app.post("/add", async (req, res) => {
   try {
     const { title, url, date, members, description } = req.body;
@@ -58,17 +30,16 @@ app.post("/add", async (req, res) => {
       })
     });
 
-    if (putRes.ok) {
-      res.json({ ok: true });
-    } else {
-      res.json({ ok: false, error: "GitHub update failed" });
+    if (!putRes.ok) {
+      return res.json({ ok: false, error: "GitHub update failed" });
     }
+
+    // ★ CSV更新後に generate.js を実行
+    execSync("node generate.js", { stdio: "inherit" });
+
+    res.json({ ok: true });
 
   } catch (err) {
     res.json({ ok: false, error: err.message });
   }
-});
-
-app.listen(3000, () => {
-  console.log("ESPICE Search Web Service running on port 3000");
 });

@@ -1,70 +1,61 @@
 import fs from "fs";
 import path from "path";
-import csv from "csv-parser";
 import { execSync } from "child_process";
 
-const results = [];
+const CSV_PATH = "./data.csv";
+const PAGES_DIR = "./public/pages";
 
-// ① CSV を読み込む
-fs.createReadStream("data.csv")
-  .pipe(csv())
-  .on("data", (data) => results.push(data))
-  .on("end", () => {
-    const pagesDir = "pages";
-    const pagefindDir = "pagefind";
-
-    // pages フォルダが無ければ作る
-    if (!fs.existsSync(pagesDir)) fs.mkdirSync(pagesDir);
-
-    // ② HTML を生成する
-    results.forEach((item) => {
-      const html = `
+// HTMLテンプレート（マッキーのCSV用）
+function createHTML(id, title, members, url) {
+  return `
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>${item.title}</title>
+  <title>${title}</title>
 </head>
 <body>
-  <h1>${item.title}</h1>
-  <p>メンバー: ${item.member}</p>
-  <p><a href="${item.url}">動画を見る</a></p>
+  <h1>${title}</h1>
+  <p>URL: <a href="${url}" target="_blank">${url}</a></p>
+  <p>メンバー: ${members}</p>
 </body>
 </html>
-      `;
-      fs.writeFileSync(path.join(pagesDir, `${item.id}.html`), html);
-    });
+`;
+}
 
-    console.log("HTML生成完了");
+function generatePages() {
+  const csv = fs.readFileSync(CSV_PATH, "utf-8").trim();
+  const lines = csv.split("\n").slice(1); // ヘッダー除外
 
-    // ③ Pagefind 1.x を実行してインデックス生成
-    try {
-      console.log("Pagefind インデックス生成中…");
+  if (!fs.existsSync(PAGES_DIR)) {
+    fs.mkdirSync(PAGES_DIR, { recursive: true });
+  }
 
-      // site=現在のフォルダを指定して Pagefind を実行
-      execSync("npx pagefind --site .", { stdio: "inherit" });
+  for (const line of lines) {
+    const cols = line.split(",");
 
-      console.log("Pagefind インデックス生成完了");
+    const id = cols[0];
+    const title = cols[1];
+    const members = cols[2];
+    const url = cols[3];
 
-      // ④ pagefind フォルダが無ければ作る
-      if (!fs.existsSync(pagefindDir)) fs.mkdirSync(pagefindDir);
+    const html = createHTML(id, title, members, url);
 
-      // ⑤ Pagefind の生成物を pagefind フォルダへコピー
-      const generatedDir = "_pagefind"; // Pagefind が生成するフォルダ
+    fs.writeFileSync(`${PAGES_DIR}/${id}.html`, html);
+  }
 
-      if (fs.existsSync(generatedDir)) {
-        const files = fs.readdirSync(generatedDir);
-        files.forEach((file) => {
-          fs.copyFileSync(
-            path.join(generatedDir, file),
-            path.join(pagefindDir, file)
-          );
-        });
-        console.log("pagefind フォルダへコピー完了");
-      } else {
-        console.log("⚠ _pagefind フォルダが見つかりませんでした");
-      }
-    } catch (error) {
-      console.error("Pagefind 実行中にエラー:", error);
-    }
-  });
+  console.log("✔ HTML生成完了");
+}
+
+function generatePagefind() {
+  console.log("✔ Pagefind再生成中…");
+  execSync(`npx pagefind --source public`, { stdio: "inherit" });
+  console.log("✔ Pagefind再生成完了");
+}
+
+function main() {
+  generatePages();
+  generatePagefind();
+}
+
+main();
