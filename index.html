@@ -4,9 +4,105 @@
     <meta charset="UTF-8">
     <title>ESPICE Search</title>
 
-    <!-- Pagefind の JS と CSS（pages/pagefind/ にある） -->
-    <script src="pages/pagefind/pagefind-ui.js"></script>
-    <link href="pages/pagefind/pagefind-ui.css" rel="stylesheet">
+    <!-- Pagefind UI（絶対パスに修正） -->
+    <script src="/pagefind/pagefind-ui.js"></script>
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+
+    <!-- ====== デザイン（スマホ対応・Wiki風） ====== -->
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 16px;
+        background: #fafafa;
+      }
+
+      h1 {
+        margin-bottom: 12px;
+      }
+
+      /* 検索ボックス */
+      #search {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        margin-bottom: 16px;
+      }
+
+      /* 結果カード */
+      .result-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 14px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        display: flex;
+        gap: 12px;
+      }
+
+      /* サムネイル */
+      .thumb {
+        width: 120px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+
+      /* スマホでは縦並びにする */
+      @media (max-width: 600px) {
+        .result-card {
+          flex-direction: column;
+        }
+        .thumb {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      /* タイトル */
+      .title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 6px;
+      }
+
+      /* メンバータグ */
+      .member-tag {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #fff;
+        margin-right: 4px;
+      }
+
+      .member-nes { background-color: #888; }
+      .member-zoma { background-color: #ff8800; }
+      .member-tooshi { background-color: #66ccff; }
+      .member-nagi { background-color: #99cc33; }
+      .member-kosuke { background-color: #9933cc; }
+
+      /* 再生数・投稿日 */
+      .meta {
+        font-size: 12px;
+        color: #666;
+        margin-top: 4px;
+      }
+
+      /* 動画登録リンク */
+      .add-link {
+        margin-top: 40px;
+        text-align: center;
+      }
+      .add-link a {
+        color: #666;
+        font-size: 14px;
+        text-decoration: none;
+      }
+    </style>
   </head>
 
   <body>
@@ -18,6 +114,12 @@
     <!-- 結果表示エリア -->
     <div id="results"></div>
 
+    <!-- 動画登録リンク（下の方に控えめに） -->
+    <div class="add-link">
+      <a href="add.html">動画を登録する</a>
+    </div>
+
+    <!-- ====== Pagefind UI 初期化 ====== -->
     <script>
       window.addEventListener("DOMContentLoaded", async () => {
         const pagefind = await new PagefindUI({
@@ -25,9 +127,13 @@
           showSubResults: true
         });
 
+        // 入力イベントで検索実行
         document.querySelector("#search").addEventListener("input", (e) => {
           pagefind.search(e.target.value);
         });
+
+        // 初期表示：新着順で全部表示
+        pagefind.search("");
       });
     </script>
   </body>
