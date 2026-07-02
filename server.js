@@ -9,10 +9,17 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 
-// 静的ファイル配信（ここが超重要）
-app.use(express.static(__dirname));
-app.use("/pagefind", express.static(path.join(__dirname, "pagefind")));
-app.use("/pages", express.static(path.join(__dirname, "pages")));
+// ★ public を配信（これが最重要）
+app.use(express.static(path.join(__dirname, "public")));
+
+// ★ pagefind と pages も public 内を配信する
+app.use("/pagefind", express.static(path.join(__dirname, "public/pagefind")));
+app.use("/pages", express.static(path.join(__dirname, "public/pages")));
+
+// SPA のための index.html 配信
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
 
 const OWNER = "makaroniguratan72";
 const REPO = "espice-search";
