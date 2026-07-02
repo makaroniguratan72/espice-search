@@ -1,1 +1,0 @@
-(()=>{var e=class{constructor(t){this.options=t,this.searchIndex=null}async init(){if(this.searchIndex)return;let t=await fetch(`${this.options.basePath}/search_index.json`);this.searchIndex=await t.json()}async search(t){await this.init();let s=t.toLowerCase();return this.searchIndex.filter(r=>r.text.toLowerCase().includes(s))}};window.Pagefind=e})();
