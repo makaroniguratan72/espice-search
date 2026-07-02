@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // ★ GitHub リポジトリ情報（マッキー専用）
-const OWNER = "YOUR_GITHUB_USERNAME";   // ←ここ書き換え
+const OWNER = "makaroniguratan72";
 const REPO = "espice-search";
 const FILE_PATH = "data.csv";
 const TOKEN = process.env.GITHUB_TOKEN; // ← Render の環境変数に入れる
