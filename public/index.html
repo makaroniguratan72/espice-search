@@ -5,7 +5,7 @@
   <title>ESPICE 踊ってみた検索</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- ★ Pagefind 2.x UI CSS -->
+  <!-- Pagefind 2.x UI -->
   <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
 
   <style>
@@ -138,7 +138,7 @@
     ESPICE 踊ってみた検索
   </header>
 
-  <!-- ★ Pagefind 検索フォーム -->
+  <!-- Pagefind 検索フォーム -->
   <div id="search" style="padding: 20px;"></div>
 
   <section class="filter-box">
@@ -161,16 +161,14 @@
   <section id="video-list"></section>
 
   <footer class="register-link">
-    <a href="https://docs.google.com/forms/d/【ここに本物のURL】" target="_blank">
-      登録フォームはこちら
-    </a>
+    <a href="/add.html">登録フォームはこちら</a>
   </footer>
 
-  <!-- ★ Pagefind 2.x UI 読み込み（ES Module ではない） -->
+  <!-- Pagefind 2.x UI 読み込み -->
   <script src="/pagefind/pagefind-ui.js"></script>
 
   <script>
-    window.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("load", () => {
       new PagefindUI({
         element: "#search",
         showSubResults: true,
