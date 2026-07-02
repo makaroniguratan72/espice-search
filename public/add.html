@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>動画登録フォーム</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    label { display: block; margin-top: 10px; }
+    input, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 20px; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+
+  <h1>動画登録フォーム</h1>
+
+  <form id="videoForm">
+    <label>タイトル
+      <input type="text" id="title" required>
+    </label>
+
+    <label>YouTube URL
+      <input type="text" id="url" required>
+    </label>
+
+    <label>投稿日（YYYY-MM-DD）
+      <input type="date" id="date" required>
+    </label>
+
+    <label>出演メンバー（カンマ区切り）
+      <input type="text" id="members" placeholder="例: ネス, ゾマやかじゃない！">
+    </label>
+
+    <label>説明（任意）
+      <textarea id="description"></textarea>
+    </label>
+
+    <button type="submit">登録する</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script src="add.js"></script>
+</body>
+</html>
