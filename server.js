@@ -1,40 +1,25 @@
+import express from "express";
+import path from "path";
+import fs from "fs";
 import { execSync } from "child_process";
 
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+app.use(express.static("public"));
+
+// ★ 登録処理（CSV に追記 → generate.js 実行）
 app.post("/add", async (req, res) => {
   try {
-    const { title, url, date, members, description } = req.body;
+    const { id, title, member, url } = req.body;
 
-    const newLine = `"${title}","${url}","${date}","${members}","${description}"\n`;
+    const newLine = `${id},${title},${member},${url}\n`;
 
-    const apiUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`;
+    // CSV をローカルで書き換える
+    fs.appendFileSync("./data.csv", newLine);
 
-    const getRes = await fetch(apiUrl, {
-      headers: { Authorization: `Bearer ${TOKEN}` }
-    });
-    const fileData = await getRes.json();
-
-    const oldContent = Buffer.from(fileData.content, "base64").toString("utf-8");
-    const updatedContent = oldContent + newLine;
-    const encodedContent = Buffer.from(updatedContent).toString("base64");
-
-    const putRes = await fetch(apiUrl, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: "Add new video entry",
-        content: encodedContent,
-        sha: fileData.sha
-      })
-    });
-
-    if (!putRes.ok) {
-      return res.json({ ok: false, error: "GitHub update failed" });
-    }
-
-    // ★ CSV更新後に generate.js を実行
+    // ★ HTML生成 & Pagefind再生成
     execSync("node generate.js", { stdio: "inherit" });
 
     res.json({ ok: true });
@@ -42,4 +27,13 @@ app.post("/add", async (req, res) => {
   } catch (err) {
     res.json({ ok: false, error: err.message });
   }
+});
+
+// ★ index.html を返す
+app.get("/", (req, res) => {
+  res.sendFile(path.join(process.cwd(), "public/index.html"));
+});
+
+app.listen(PORT, () => {
+  console.log(`ESPICE Search Web Service running on port ${PORT}`);
 });
