@@ -1,0 +1,11 @@
+{
+  "name": "espice-search",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node generate.js && npx pagefind --site pages"
+  },
+  "dependencies": {
+    "csv-parser": "^3.0.0"
+  }
+}
