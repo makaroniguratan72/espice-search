@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ESPICE 踊ってみた検索</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Pagefind UI CSS -->
+  <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Noto Sans JP", sans-serif;
+      background: #fafafa;
+      color: #333;
+    }
+
+    .site-header {
+      background: #000;
+      color: #fff;
+      padding: 12px 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .section-title {
+      background: #e3f2fd;
+      color: #0d47a1;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* チェックボックス（落ち着いた白） */
+    .member-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0 20px;
+    }
+
+    .member-tag {
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      border: 1px solid #ccc;
+    }
+
+    .member-tag input {
+      transform: scale(1.2);
+    }
+
+    /* ソートボタン */
+    .sort-buttons {
+      display: flex;
+      gap: 10px;
+      padding: 20px;
+    }
+
+    .sort-btn {
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: none;
+      background: #ddd;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .sort-btn.active {
+      background: #0d47a1;
+      color: #fff;
+    }
+
+    /* 動画カード */
+    #video-list {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .video-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .video-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .video-meta {
+      font-size: 13px;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    /* メンバー色タグ（検索結果だけ色を付ける） */
+    .member-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-top: 6px;
+      color: #fff;
+    }
+
+    .badge-nes { background: #f2f2f2; color: #000; }
+    .badge-zoma { background: #ff8a00; }
+    .badge-toshi { background: #4fc3f7; color: #000; }
+    .badge-nagi { background: #a8e063; color: #000; }
+    .badge-kousuke { background: #9c27b0; }
+
+    /* 登録フォーム（控えめ） */
+    .register-link {
+      text-align: center;
+      padding: 30px 0;
+      font-size: 13px;
+      color: #777;
+    }
+
+    .register-link a {
+      color: #777;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    ESPICE 踊ってみた検索
+  </header>
+
+  <!-- ★ 検索フォーム（必ずここに置く） -->
+  <div id="search" style="padding: 20px;"></div>
+
+  <section class="filter-box">
+    <h2 class="section-title">■ 動画検索</h2>
+
+    <!-- メンバー絞り込み（色なし） -->
+    <div class="member-filter">
+      <label class="member-tag"><input type="checkbox" value="ネス"> ネス</label>
+      <label class="member-tag"><input type="checkbox" value="ゾマ"> ゾマ</label>
+      <label class="member-tag"><input type="checkbox" value="とぅーし"> とぅーし</label>
+      <label class="member-tag"><input type="checkbox" value="凪"> 凪</label>
+      <label class="member-tag"><input type="checkbox" value="KOUSUKE"> KOUSUKE</label>
+    </div>
+
+    <div class="sort-buttons">
+      <button class="sort-btn active" data-sort="new">新着順</button>
+      <button class="sort-btn" data-sort="views">再生数順</button>
+    </div>
+  </section>
+
+  <section id="video-list"></section>
+
+  <!-- ★ 登録フォーム（URLを入れたら表示される） -->
+  <footer class="register-link">
+    <a href="https://docs.google.com/forms/d/【ここに本物のURL】" target="_blank">
+      登録フォームはこちら
+    </a>
+  </footer>
+
+  <!-- ★ Pagefind UI（必ず body の最後に置く） -->
+  <script type="module">
+    import { PagefindUI } from "/pagefind/pagefind-component-ui.js";
+    new PagefindUI({
+      element: "#search",
+      showSubResults: true,
+      showImages: true
+    });
+  </script>
+
+  <script>
+    async function loadVideos() {
+      const videos = [];
+      const maxId = 500;
+
+      for (let i = 1; i <= maxId; i++) {
+        const id = String(i).padStart(3, "0");
+        const url = `/pages/${id}.html`;
+
+        try {
+          const res = await fetch(url);
+          if (!res.ok) continue;
+
+          const text = await res.text();
+
+          const titleMatch = text.match(/<h1>(.*?)<\/h1>/);
+          const title = titleMatch ? titleMatch[1] : "タイトル不明";
+
+          const memberMatch = text.match(/メンバー:\s*(.*?)</);
+          const member = memberMatch ? memberMatch[1] : "";
+
+          videos.push({ id, title, member, url });
+
+        } catch (e) {}
+      }
+
+      return videos;
+    }
+
+    function renderVideos(videos) {
+      const list = document.getElementById("video-list");
+      list.innerHTML = "";
+
+      videos.forEach(v => {
+        const card = document.createElement("div");
+        card.className = "video-card";
+
+        const badgeClass =
+          v.member === "ネス" ? "badge-nes" :
+          v.member === "ゾマ" ? "badge-zoma" :
+          v.member === "とぅーし" ? "badge-toshi" :
+          v.member === "凪" ? "badge-nagi" :
+          v.member === "KOUSUKE" ? "badge-kousuke" : "";
+
+        card.innerHTML = `
+          <div class="video-title">${v.title}</div>
+          <div class="video-meta">メンバー：${v.member}</div>
+          <span class="member-badge ${badgeClass}">${v.member}</span>
+          <div class="video-meta"><a href="${v.url}" target="_blank">動画ページへ</a></div>
+        `;
+
+        list.appendChild(card);
+      });
+    }
+
+    async function init() {
+      let videos = await loadVideos();
+
+      videos.sort((a, b) => Number(b.id) - Number(a.id));
+      renderVideos(videos);
+
+      const checkboxes = document.querySelectorAll(".member-tag input");
+      checkboxes.forEach(cb => {
+        cb.addEventListener("change", () => {
+          const selected = [...checkboxes].filter(c => c.checked).map(c => c.value);
+
+          let filtered = videos;
+          if (selected.length > 0) {
+            filtered = videos.filter(v => selected.includes(v.member));
+          }
+
+          renderVideos(filtered);
+        });
+      });
+
+      const sortBtns = document.querySelectorAll(".sort-btn");
+      sortBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          sortBtns.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          const type = btn.dataset.sort;
+          let sorted = [...videos];
+
+          if (type === "new") {
+            sorted.sort((a, b) => Number(b.id) - Number(a.id));
+          } else if (type === "views") {
+            sorted.sort((a, b) => (b.views || 0) - (a.views || 0));
+          }
+
+          renderVideos(sorted);
+        });
+      });
+    }
+
+    init();
+  </script>
+
+</body>
+</html>
