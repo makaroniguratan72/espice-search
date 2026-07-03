@@ -4,35 +4,44 @@
   <meta charset="UTF-8">
   <title>ESPICE SEARCH</title>
 
-  <!-- Pagefind UI -->
-  <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
-  <script src="/pagefind/pagefind-ui.js"></script>
-
   <link rel="stylesheet" href="style.css">
+
+  <!-- Pagefind core -->
+  <script src="/pagefind/pagefind.js"></script>
 </head>
 
 <body>
 
-  <header class="site-header">
-    <div class="header-left">ESPICE SEARCH</div>
-    <div class="header-right">
-      <a href="/" class="wiki-link">検索ページに戻る</a>
-    </div>
-  </header>
-  <hr class="header-line">
+<header class="site-header">
+  <div class="header-left">ESPICE SEARCH</div>
+  <div class="header-right">
+    <a href="/" class="wiki-link">検索ページに戻る</a>
+  </div>
+</header>
+<hr class="header-line">
 
-  <!-- Pagefind の検索UIを置く場所 -->
-  <div id="search"></div>
+<div class="search-area">
 
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      new PagefindUI({
-        element: "#search",
-        showSubResults: true,
-        showImages: false
-      });
-    });
-  </script>
+  <input type="text" id="searchInput" placeholder="動画を検索…">
+
+  <div class="member-select">
+    <label><input type="checkbox" value="ネス"> ネス</label>
+    <label><input type="checkbox" value="ゾマ"> ゾマ</label>
+    <label><input type="checkbox" value="とぅーし"> とぅーし</label>
+    <label><input type="checkbox" value="凪"> 凪</label>
+    <label><input type="checkbox" value="KOSUKE"> KOSUKE</label>
+  </div>
+
+  <div class="sort-tabs">
+    <button id="sortNew" class="tab active">新着順</button>
+    <button id="sortPopular" class="tab">人気順</button>
+  </div>
+
+</div>
+
+<div id="searchResults" class="results"></div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
