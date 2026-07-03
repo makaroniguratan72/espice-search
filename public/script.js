@@ -26,7 +26,7 @@ function activateTab(id) {
 
 /* 初期表示・並び替え */
 async function loadVideos(mode) {
-  const res = await fetch("pagefind/search.json");
+  const res = await fetch("pagefind/pagefind-entry.json");
   const data = await res.json();
   let results = data.results;
 
