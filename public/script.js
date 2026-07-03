@@ -1,5 +1,7 @@
-// script.js - Pagefind 内部 API を自動検出して使う + entry.json フォールバック
+// script.js - 完全版（Pagefind 内部API自動検出 + entry.json フォールバック）
 // そのまま public/script.js に上書きしてデプロイしてや
+
+/* ユーティリティ -------------------------------------------------- */
 
 // wait for window.pagefind (UI) がセットされるまで待つ
 function waitForPagefind(timeout = 7000) {
@@ -42,9 +44,12 @@ function slugify(s){ return String(s||'').toLowerCase().replace(/\s+/g,'-').repl
 function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
 function debounce(fn, wait=200){ let t; return function(...a){ clearTimeout(t); t=setTimeout(()=>fn.apply(this,a), wait); }; }
 
+/* 描画 -------------------------------------------------- */
+
 // render results (adds Pagefind-like classes to help CSS)
 function renderResults(items){
   const container = document.getElementById('searchResults');
+  if(!container) return;
   container.innerHTML = '';
   container.classList.add('pagefind-ui'); // Pagefind CSS が特定クラスを参照する場合に備える
 
@@ -55,7 +60,7 @@ function renderResults(items){
 
   items.forEach(item => {
     const div = document.createElement('article');
-    div.className = 'result-item pf-result'; // pf-result は Pagefind 系のクラス名に合わせるための保険
+    div.className = 'result-item pf-result';
     const link = escapeHtml(item.url || '#');
     div.innerHTML = `
       <h3 class="result-title"><a href="${link}">${escapeHtml(item.title)}</a></h3>
@@ -70,98 +75,150 @@ function renderResults(items){
   });
 }
 
-// フォールバック全文検索（entry.json を使う）
+/* フォールバック全文検索 -------------------------------------------------- */
+
 function fallbackSearch(entries, query){
   if(!query) return entries.slice();
   const q = query.trim().toLowerCase();
   return entries.filter(e => {
-    const title = (e.title || e.name || e.title || '').toString().toLowerCase();
+    const title = (e.title || e.name || '').toString().toLowerCase();
     const body = (e.excerpt || e.summary || e.body || '').toString().toLowerCase();
     const members = (e.member || e.members || '').toString().toLowerCase();
     return title.includes(q) || body.includes(q) || members.includes(q);
   });
 }
 
-// 自動検出ロジック：pagefind オブジェクトや内部 _pfs を調べて search 関数を探す
-function detectSearchFunction(pf){
-  if(!pf) return null;
+/* 検索関数の自動検出（堅牢版） ---------------------------------------------
+   - pf: window.pagefind オブジェクト
+   - 戻り: { fn: async function(query), info: string } または null
+------------------------------------------------------------------------- */
+async function detectAndWrapSearchFunction(pf) {
+  if (!pf) return null;
 
-  // 1) 直接的な関数
-  const directNames = ['search','query','find','run','searchIndex','searcher'];
-  for(const n of directNames){
-    if(typeof pf[n] === 'function') return async (q)=>pf[n](q);
+  // 候補名を収集（ただし $$ や set を含む内部名は除外）
+  const topKeys = Object.keys(pf || {}).filter(k =>
+    /search|find|query|run|index|client/i.test(k) && !/^\$+/.test(k) && !/set/i.test(k)
+  );
+
+  // _pfs の中身も候補に（ただし $$ で始まるものは除外）
+  if (pf._pfs && typeof pf._pfs === 'object') {
+    topKeys.push(...Object.keys(pf._pfs).filter(k => !/^\$+/.test(k) && !/set/i.test(k)).map(k => `_pfs.${k}`));
   }
 
-  // 2) nested objects (pf.client.search, pf.index.search, pf._pfs.search 等)
-  const nestedPaths = [
-    ['client','search'],
-    ['index','search'],
-    ['_pfs','search'],
-    ['_pfs','index','search'],
-    ['_pfs','client','search']
+  // 試す引数パターン（順に試す）
+  const argPatterns = [
+    q => [q],                       // string
+    q => [{ query: q }],            // {query}
+    q => [{ q }],                   // {q}
+    q => [{ term: q }],             // {term}
+    q => [{ text: q }],             // {text}
+    q => [{ q: q, limit: 50 }],     // {q,limit}
+    q => [{ query: q, options: {} }], // nested
   ];
-  for(const path of nestedPaths){
-    let cur = pf;
-    let ok = true;
-    for(const p of path){
-      if(cur && typeof cur[p] !== 'undefined') cur = cur[p];
-      else { ok = false; break; }
-    }
-    if(ok && typeof cur === 'function') {
-      return async (q)=>cur(q);
-    }
+
+  // 判定関数: 有効な結果形状か
+  function isValidResult(x) {
+    if (!x) return false;
+    if (Array.isArray(x)) return true;
+    if (typeof x === 'object' && (Array.isArray(x.results) || Array.isArray(x.pages) || Array.isArray(x.entries))) return true;
+    return false;
   }
 
-  // 3) _pfs 内の関数を列挙して最初の関数を使う（最終手段）
-  if(pf._pfs && typeof pf._pfs === 'object'){
-    const keys = Object.keys(pf._pfs);
-    for(const k of keys){
-      if(typeof pf._pfs[k] === 'function') {
-        console.log('Using pagefind._pfs.'+k+' as search function (best-effort)');
-        return async (q)=>pf._pfs[k](q);
+  // 実際に試す
+  for (const name of topKeys) {
+    let fn = null;
+    try {
+      if (name.startsWith('_pfs.')) {
+        const key = name.split('.')[1];
+        fn = pf._pfs && pf._pfs[key];
+      } else {
+        fn = pf[name];
+      }
+    } catch (e) {
+      fn = null;
+    }
+    if (typeof fn !== 'function') continue;
+
+    // skip suspicious internal names
+    if (/^\$+/.test(name) || name.includes('$$') || /set/i.test(name)) continue;
+
+    for (const pattern of argPatterns) {
+      // wrapper を作る
+      const wrapper = async (query) => {
+        const args = pattern(query);
+        const res = fn.apply(pf, args);
+        const awaited = (res && typeof res.then === 'function') ? await res : res;
+        if (isValidResult(awaited)) return awaited;
+        if (awaited && typeof awaited === 'object') {
+          if (Array.isArray(awaited.results)) return awaited;
+          if (Array.isArray(awaited.pages)) return { results: awaited.pages };
+          if (Array.isArray(awaited.entries)) return { results: awaited.entries };
+        }
+        throw new Error('invalid result shape');
+      };
+
+      // テスト実行（空文字で試す）
+      try {
+        const test = wrapper('');
+        const maybe = (test && typeof test.then === 'function') ? await test : test;
+        if (isValidResult(maybe)) {
+          console.log(`Using pagefind.${name} with pattern as search function`);
+          return { fn: wrapper, info: `${name}` };
+        }
+      } catch (e) {
+        // 失敗したら次へ
       }
     }
   }
 
+  // 見つからなければ null
   return null;
 }
 
-// メイン処理
+/* メイン -------------------------------------------------- */
+
 (async () => {
   // 1) Pagefind UI を待つ
   const pf = await waitForPagefind(7000);
   console.log('pagefind (UI) instance:', pf);
 
-  // 2) 検索関数を自動検出
-  let searchFn = detectSearchFunction(pf);
-  if(searchFn) console.log('Detected search function from pagefind.');
+  // 2) 検索関数を自動検出（ラップされた async 関数を返す）
+  let searchFn = null;
+  try {
+    const wrapped = await detectAndWrapSearchFunction(pf);
+    if (wrapped && wrapped.fn) {
+      searchFn = wrapped.fn;
+      console.log('Detected search function from pagefind:', wrapped.info || '(wrapped)');
+    }
+  } catch (e) {
+    console.warn('detectAndWrapSearchFunction error:', e);
+  }
 
   // 3) フォールバックで entry.json を読み込む（searchFn が無ければ必須）
   let fallbackEntries = null;
-  if(!searchFn){
-    try{
+  if (!searchFn) {
+    try {
       const res = await fetch('/pagefind/pagefind-entry.json', {cache:'no-store'});
-      if(res.ok){
+      if (res.ok) {
         const json = await res.json();
         let entries = json.pages || json.entries || json.results || json || [];
-        if(!Array.isArray(entries) && typeof entries === 'object') entries = Object.values(entries);
+        if (!Array.isArray(entries) && typeof entries === 'object') entries = Object.values(entries);
         fallbackEntries = normalizeEntries(entries);
         console.log('Loaded fallback entries count:', fallbackEntries.length);
       } else {
         console.warn('Failed to fetch pagefind-entry.json:', res.status);
       }
-    }catch(e){
+    } catch (e) {
       console.warn('Error fetching pagefind-entry.json:', e);
     }
   }
 
   // 4) runSearch 実装（searchFn があればそれを使い、なければ fallback）
-  async function runSearch(query){
-    // if searchFn exists, try it first
-    if(searchFn){
-      try{
+  async function runSearch(query) {
+    // try searchFn first
+    if (searchFn) {
+      try {
         const raw = await searchFn(query || '');
-        // raw の形は様々なので安全に取り出す
         const resultsArray = (raw && raw.results) ? raw.results : (Array.isArray(raw) ? raw : []);
         const items = resultsArray.map(r => {
           const d = r.data || r;
@@ -176,29 +233,30 @@ function detectSearchFunction(pf){
         });
         renderResults(items);
         return;
-      }catch(e){
+      } catch (e) {
         console.warn('searchFn failed, falling back to entry.json:', e);
+        // fall through to fallback
       }
     }
 
     // fallback
-    if(fallbackEntries){
+    if (fallbackEntries) {
       const matched = fallbackSearch(fallbackEntries, query || '');
       renderResults(matched);
       return;
     }
 
-    // どれも無ければ空表示
+    // none available
     renderResults([]);
   }
 
   // 5) UI イベント登録
   const input = document.getElementById('searchInput');
-  if(input) input.addEventListener('input', debounce(e => runSearch(e.target.value), 200));
+  if (input) input.addEventListener('input', debounce(e => runSearch(e.target.value), 200));
   document.querySelectorAll('.member-select input').forEach(cb => cb.addEventListener('change', () => runSearch(input ? input.value : '')));
   const sortNewBtn = document.getElementById('sortNew');
   const sortPopularBtn = document.getElementById('sortPopular');
-  if(sortNewBtn && sortPopularBtn){
+  if (sortNewBtn && sortPopularBtn) {
     sortNewBtn.addEventListener('click', () => { sortNewBtn.classList.add('active'); sortPopularBtn.classList.remove('active'); runSearch(input ? input.value : ''); });
     sortPopularBtn.addEventListener('click', () => { sortPopularBtn.classList.add('active'); sortNewBtn.classList.remove('active'); runSearch(input ? input.value : ''); });
   }
