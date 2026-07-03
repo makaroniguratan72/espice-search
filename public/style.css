@@ -1,0 +1,181 @@
+/* ============================
+   共通レイアウト
+============================ */
+body {
+  font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #fafafa;
+  color: #333;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ============================
+   検索ページ（index.html）
+============================ */
+
+/* 検索バー */
+.search-area {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 16px;
+}
+
+/* 絞り込みエリア */
+.filter-area {
+  margin-bottom: 20px;
+}
+
+/* 新着／人気ボタン */
+.sort-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.sort-buttons button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.sort-buttons button:hover {
+  background: #005fcc;
+}
+
+/* メンバー選択（枠なし） */
+.member-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.member-option {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+}
+
+/* 結果一覧 */
+#searchResults {
+  margin-top: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 動画カード */
+.video-card {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+
+.video-card:hover {
+  background: #f0f7ff;
+}
+
+.thumb {
+  width: 160px;
+  border-radius: 6px;
+}
+
+.info h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.info p {
+  margin: 4px 0 0;
+  color: #555;
+}
+
+/* ============================
+   個別ページ（1.html など）
+============================ */
+
+.video-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.video-page h1 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.member {
+  font-size: 16px;
+  color: #666;
+}
+
+/* YouTube 埋め込み */
+.video-frame {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.video-frame iframe {
+  width: 100%;
+  max-width: 700px;
+  height: 400px;
+  border-radius: 8px;
+}
+
+/* 動画情報 */
+.video-info {
+  margin: 20px 0;
+  background: #f7f7f7;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.video-info p {
+  margin: 6px 0;
+}
+
+/* 説明文 */
+.description {
+  margin-top: 20px;
+  background: #f7f7f7;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.description h2 {
+  margin-top: 0;
+}
+
+/* 戻るボタン */
+.back-link {
+  margin-top: 20px;
+  display: inline-block;
+}
