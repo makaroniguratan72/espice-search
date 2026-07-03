@@ -6,7 +6,7 @@
   <title>ESPICE SEARCH</title>
 
   <!-- サイトのスタイル -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
 
   <!-- Pagefind のスタイル（必須） -->
   <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
@@ -15,7 +15,6 @@
   <!-- Pagefind ローダー（モジュール / グローバル両対応の堅牢版） -->
   <script type="module">
     (async () => {
-      // 初期化関数
       function initPagefind(PagefindUI) {
         try {
           const maybeInstance = new PagefindUI({
@@ -126,11 +125,11 @@
   </section>
 
   <section id="searchResults" class="results">
-    <!-- Pagefind UI またはカスタム結果がここに入る -->
+    <!-- 検索結果がここに入る -->
   </section>
 </main>
 
 <!-- アプリのロジック -->
-<script src="script.js"></script>
+<script src="/script.js"></script>
 </body>
 </html>

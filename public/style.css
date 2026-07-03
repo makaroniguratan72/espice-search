@@ -78,3 +78,12 @@ main{max-width:980px;margin:20px auto;padding:0 16px}
 
 /* no results */
 .no-results{padding:18px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #eee;border-radius:8px}
+
+/* -------------------------
+   フォールバック用 Pagefind 互換スタイル
+   ------------------------- */
+.pf-results{display:block}
+.pf-result{background:#fff;border:1px solid #eee;padding:12px;border-radius:8px;margin-bottom:12px}
+.pf-result__title a{color:#0b84ff;text-decoration:none}
+.pf-result__meta{font-size:13px;color:#666;display:flex;gap:12px;margin-bottom:8px}
+.pf-no-results{padding:18px;text-align:center;color:#666;background:#fff;border:1px dashed #eee;border-radius:8px}

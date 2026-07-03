@@ -46,32 +46,51 @@ function debounce(fn, wait=200){ let t; return function(...a){ clearTimeout(t); 
 
 /* 描画 -------------------------------------------------- */
 
-// render results (adds Pagefind-like classes to help CSS)
+// renderResults: Pagefind の期待するクラス構造を模倣して出力（互換性確保）
 function renderResults(items){
   const container = document.getElementById('searchResults');
   if(!container) return;
   container.innerHTML = '';
-  container.classList.add('pagefind-ui'); // Pagefind CSS が特定クラスを参照する場合に備える
+
+  // Pagefind UI が期待するラッパー構造を模倣する
+  const wrapper = document.createElement('div');
+  wrapper.className = 'pf-results pf-results--list';
+  container.appendChild(wrapper);
 
   if(!items || items.length === 0){
-    container.innerHTML = '<div class="no-results">該当する動画が見つかりませんでした。</div>';
+    const no = document.createElement('div');
+    no.className = 'no-results pf-no-results';
+    no.textContent = '該当する動画が見つかりませんでした。';
+    wrapper.appendChild(no);
     return;
   }
 
   items.forEach(item => {
-    const div = document.createElement('article');
-    div.className = 'result-item pf-result';
-    const link = escapeHtml(item.url || '#');
-    div.innerHTML = `
-      <h3 class="result-title"><a href="${link}">${escapeHtml(item.title)}</a></h3>
-      <div class="result-meta">
-        <span class="meta-member">出演：${escapeHtml(item.member)}</span>
-        <span class="meta-views">再生数：${escapeHtml(String(item.views))}</span>
-        <span class="meta-date">投稿日：${escapeHtml(item.date)}</span>
-      </div>
-      <p class="result-excerpt">${escapeHtml(item.excerpt)}</p>
-    `;
-    container.appendChild(div);
+    const card = document.createElement('div');
+    card.className = 'pf-result pf-result--item result-item';
+
+    const title = document.createElement('h3');
+    title.className = 'pf-result__title result-title';
+    const a = document.createElement('a');
+    a.href = item.url || '#';
+    a.innerHTML = escapeHtml(item.title || 'タイトルなし');
+    title.appendChild(a);
+
+    const meta = document.createElement('div');
+    meta.className = 'pf-result__meta result-meta';
+    meta.innerHTML = `<span class="meta-member">出演：${escapeHtml(item.member)}</span>
+                      <span class="meta-views">再生数：${escapeHtml(String(item.views))}</span>
+                      <span class="meta-date">投稿日：${escapeHtml(item.date)}</span>`;
+
+    const excerpt = document.createElement('p');
+    excerpt.className = 'pf-result__excerpt result-excerpt';
+    excerpt.innerHTML = escapeHtml(item.excerpt || '');
+
+    card.appendChild(title);
+    card.appendChild(meta);
+    card.appendChild(excerpt);
+
+    wrapper.appendChild(card);
   });
 }
 
