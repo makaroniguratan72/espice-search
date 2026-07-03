@@ -1,77 +1,86 @@
+// Pagefind 検索オブジェクト
 let pagefind;
 
-document.addEventListener("DOMContentLoaded", async () => {
-  // Pagefind 2.x を初期化
-  pagefind = await Pagefind.create();
-
-  // イベント設定
-  document.getElementById("searchInput").addEventListener("input", applyFilters);
-
-  document.querySelectorAll(".member-select input").forEach(cb => {
-    cb.addEventListener("change", applyFilters);
+// 初期化
+window.addEventListener("DOMContentLoaded", async () => {
+  pagefind = await new PagefindUI({
+    element: "#searchResults",
+    showSubResults: true,
   });
 
-  document.getElementById("sortNew").addEventListener("click", () => {
-    activateTab("sortNew");
-    applyFilters();
-  });
-
-  document.getElementById("sortPopular").addEventListener("click", () => {
-    activateTab("sortPopular");
-    applyFilters();
-  });
-
-  // 初期表示
-  applyFilters();
+  // 初期表示：新着順で全件表示
+  runSearch("");
 });
 
-// タブ切り替え
-function activateTab(id) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-
-// フィルタ適用
-async function applyFilters() {
-  const keyword = document.getElementById("searchInput").value.trim();
-  const members = [...document.querySelectorAll(".member-select input:checked")].map(cb => cb.value);
-
-  let results = [];
-
-  // Pagefind 2.x の検索
-  const search = await pagefind.search(keyword);
-  results = await Promise.all(search.results.map(r => r.data()));
+// 検索実行
+async function runSearch(query) {
+  const results = await pagefind.search(query);
+  let items = results.results.map(r => r.data);
 
   // メンバー絞り込み
-  if (members.length > 0) {
-    results = results.filter(r => members.some(m => r.meta.member.includes(m)));
+  const checkedMembers = [...document.querySelectorAll(".member-select input:checked")]
+    .map(cb => cb.value);
+
+  if (checkedMembers.length > 0) {
+    items = items.filter(item =>
+      checkedMembers.some(m => item.member.includes(m))
+    );
   }
 
   // ソート
-  const mode = document.querySelector(".tab.active").id;
-  if (mode === "sortNew") {
-    results.sort((a, b) => new Date(b.meta.date) - new Date(a.meta.date));
-  } else {
-    results.sort((a, b) => Number(b.meta.views) - Number(a.meta.views));
+  const sortNew = document.getElementById("sortNew").classList.contains("active");
+  const sortPopular = document.getElementById("sortPopular").classList.contains("active");
+
+  if (sortNew) {
+    items.sort((a, b) => new Date(b.date) - new Date(a.date));
+  } else if (sortPopular) {
+    items.sort((a, b) => Number(b.views) - Number(a.views));
   }
 
-  renderResults(results);
+  // 表示
+  renderResults(items);
 }
 
 // 結果表示
-function renderResults(results) {
+function renderResults(items) {
   const container = document.getElementById("searchResults");
   container.innerHTML = "";
 
-  results.forEach(r => {
-    container.innerHTML += `
-      <div class="video-card">
-        <h3>${r.meta.title}</h3>
-        <p>出演：${r.meta.member}</p>
-        <p>再生数：${r.meta.views}</p>
-        <p>投稿日：${r.meta.date}</p>
-        <a href="pages/${r.meta.id}.html">詳細ページへ</a>
-      </div>
+  items.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "result-item";
+
+    div.innerHTML = `
+      <h3>${item.title}</h3>
+      <p>出演：${item.member}</p>
+      <p>再生数：${item.views}</p>
+      <p>投稿日：${item.date}</p>
+      <a href="pages/${item.id}.html">詳細を見る</a>
     `;
+
+    container.appendChild(div);
   });
 }
+
+// 入力イベント
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  runSearch(e.target.value);
+});
+
+// メンバー絞り込み
+document.querySelectorAll(".member-select input").forEach(cb => {
+  cb.addEventListener("change", () => runSearch(document.getElementById("searchInput").value));
+});
+
+// ソート切り替え
+document.getElementById("sortNew").addEventListener("click", () => {
+  document.getElementById("sortNew").classList.add("active");
+  document.getElementById("sortPopular").classList.remove("active");
+  runSearch(document.getElementById("searchInput").value);
+});
+
+document.getElementById("sortPopular").addEventListener("click", () => {
+  document.getElementById("sortPopular").classList.add("active");
+  document.getElementById("sortNew").classList.remove("active");
+  runSearch(document.getElementById("searchInput").value);
+});
