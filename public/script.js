@@ -1,9 +1,8 @@
 // script.js - 完全版（Pagefind 内部API自動検出 + entry.json フォールバック）
-// そのまま public/script.js に上書きしてデプロイしてください
+// public/script.js に上書きしてください
 
 /* ユーティリティ -------------------------------------------------- */
 
-// wait for window.pagefind (UI) がセットされるまで待つ
 function waitForPagefind(timeout = 7000) {
   return new Promise((resolve) => {
     if (window.pagefind) return resolve(window.pagefind);
@@ -24,7 +23,6 @@ function waitForPagefind(timeout = 7000) {
   });
 }
 
-// normalize entries for rendering
 function normalizeEntries(entries) {
   return entries.map(e => {
     const d = e.data || e;
@@ -46,13 +44,11 @@ function debounce(fn, wait=200){ let t; return function(...a){ clearTimeout(t); 
 
 /* 描画 -------------------------------------------------- */
 
-// renderResults: Pagefind の期待するクラス構造を模倣して出力（互換性確保）
 function renderResults(items){
   const container = document.getElementById('searchResults');
   if(!container) return;
   container.innerHTML = '';
 
-  // Pagefind UI が期待するラッパー構造を模倣する
   const wrapper = document.createElement('div');
   wrapper.className = 'pf-results pf-results--list';
   container.appendChild(wrapper);
@@ -107,35 +103,29 @@ function fallbackSearch(entries, query){
   });
 }
 
-/* 検索関数の自動検出（堅牢版） ---------------------------------------------
-   - pf: window.pagefind オブジェクト
-   - 戻り: { fn: async function(query), info: string } または null
-------------------------------------------------------------------------- */
+/* 検索関数の自動検出（堅牢版） --------------------------------------------- */
+
 async function detectAndWrapSearchFunction(pf) {
   if (!pf) return null;
 
-  // 候補名を収集（ただし $$ や set を含む内部名は除外）
   const topKeys = Object.keys(pf || {}).filter(k =>
     /search|find|query|run|index|client/i.test(k) && !/^\$+/.test(k) && !/set/i.test(k)
   );
 
-  // _pfs の中身も候補に（ただし $$ で始まるものは除外）
   if (pf._pfs && typeof pf._pfs === 'object') {
     topKeys.push(...Object.keys(pf._pfs).filter(k => !/^\$+/.test(k) && !/set/i.test(k)).map(k => `_pfs.${k}`));
   }
 
-  // 試す引数パターン（順に試す）
   const argPatterns = [
-    q => [q],                       // string
-    q => [{ query: q }],            // {query}
-    q => [{ q }],                   // {q}
-    q => [{ term: q }],             // {term}
-    q => [{ text: q }],             // {text}
-    q => [{ q: q, limit: 50 }],     // {q,limit}
-    q => [{ query: q, options: {} }], // nested
+    q => [q],
+    q => [{ query: q }],
+    q => [{ q }],
+    q => [{ term: q }],
+    q => [{ text: q }],
+    q => [{ q: q, limit: 50 }],
+    q => [{ query: q, options: {} }],
   ];
 
-  // 判定関数: 有効な結果形状か
   function isValidResult(x) {
     if (!x) return false;
     if (Array.isArray(x)) return true;
@@ -143,7 +133,6 @@ async function detectAndWrapSearchFunction(pf) {
     return false;
   }
 
-  // 実際に試す
   for (const name of topKeys) {
     let fn = null;
     try {
@@ -157,12 +146,9 @@ async function detectAndWrapSearchFunction(pf) {
       fn = null;
     }
     if (typeof fn !== 'function') continue;
-
-    // skip suspicious internal names
     if (/^\$+/.test(name) || name.includes('$$') || /set/i.test(name)) continue;
 
     for (const pattern of argPatterns) {
-      // wrapper を作る
       const wrapper = async (query) => {
         const args = pattern(query);
         const res = fn.apply(pf, args);
@@ -176,32 +162,28 @@ async function detectAndWrapSearchFunction(pf) {
         throw new Error('invalid result shape');
       };
 
-      // テスト実行（空文字で試す）
       try {
         const test = wrapper('');
         const maybe = (test && typeof test.then === 'function') ? await test : test;
         if (isValidResult(maybe)) {
-          console.log(`Using pagefind.${name} with pattern as search function`);
+          console.log(`Using pagefind.${name} as search function`);
           return { fn: wrapper, info: `${name}` };
         }
       } catch (e) {
-        // 失敗したら次へ
+        // 次のパターンへ
       }
     }
   }
 
-  // 見つからなければ null
   return null;
 }
 
 /* メイン -------------------------------------------------- */
 
 (async () => {
-  // 1) Pagefind UI を待つ
   const pf = await waitForPagefind(7000);
   console.log('pagefind (UI) instance:', pf);
 
-  // 2) 検索関数を自動検出（ラップされた async 関数を返す）
   let searchFn = null;
   try {
     const wrapped = await detectAndWrapSearchFunction(pf);
@@ -213,7 +195,6 @@ async function detectAndWrapSearchFunction(pf) {
     console.warn('detectAndWrapSearchFunction error:', e);
   }
 
-  // 3) フォールバックで entry.json を読み込む（searchFn が無ければ必須）
   let fallbackEntries = null;
   if (!searchFn) {
     try {
@@ -232,7 +213,7 @@ async function detectAndWrapSearchFunction(pf) {
     }
   }
 
-  // 3.5) フォールバックとして window.pagefind.search を注入（内部APIが無い場合の互換パッチ）
+  // フォールバック互換パッチ：window.pagefind.search を注入
   if (!searchFn && fallbackEntries) {
     if (!window.pagefind) window.pagefind = {};
     if (typeof window.pagefind.search !== 'function') {
@@ -257,9 +238,7 @@ async function detectAndWrapSearchFunction(pf) {
     }
   }
 
-  // 4) runSearch 実装（searchFn があればそれを使い、なければ fallback）
   async function runSearch(query) {
-    // try searchFn first
     if (searchFn) {
       try {
         const raw = await searchFn(query || '');
@@ -279,22 +258,18 @@ async function detectAndWrapSearchFunction(pf) {
         return;
       } catch (e) {
         console.warn('searchFn failed, falling back to entry.json:', e);
-        // fall through to fallback
       }
     }
 
-    // fallback
     if (fallbackEntries) {
       const matched = fallbackSearch(fallbackEntries, query || '');
       renderResults(matched);
       return;
     }
 
-    // none available
     renderResults([]);
   }
 
-  // 5) UI イベント登録
   const input = document.getElementById('searchInput');
   if (input) input.addEventListener('input', debounce(e => runSearch(e.target.value), 200));
   document.querySelectorAll('.member-select input').forEach(cb => cb.addEventListener('change', () => runSearch(input ? input.value : '')));
@@ -305,10 +280,8 @@ async function detectAndWrapSearchFunction(pf) {
     sortPopularBtn.addEventListener('click', () => { sortPopularBtn.classList.add('active'); sortNewBtn.classList.remove('active'); runSearch(input ? input.value : ''); });
   }
 
-  // 6) 初期検索
   runSearch('');
 
-  // debug info
   window.__espice_debug = { hasUI: !!pf, hasSearchFn: !!searchFn, fallbackCount: fallbackEntries ? fallbackEntries.length : 0 };
   console.log('espice debug:', window.__espice_debug);
 })();
