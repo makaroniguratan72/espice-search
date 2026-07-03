@@ -1,72 +1,80 @@
-body {
-  font-family: sans-serif;
-  background: #fff;
-  color: #000;
-  margin: 0;
-  padding: 0;
+/* style.css - 最低限のレイアウトと Pagefind と共存するスタイル */
+
+:root{
+  --bg:#fff;
+  --text:#222;
+  --accent:#0b84ff;
+  --muted:#666;
+  --card:#fafafa;
 }
 
-.site-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 16px;
-  font-size: 20px;
+*{box-sizing:border-box}
+body{
+  font-family: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  margin:0;
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.5;
 }
 
-.header-line {
-  border: none;
-  border-bottom: 1px solid #ddd;
+.site-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 18px;
+  background:linear-gradient(90deg,#fff,#f7f9fc);
+  border-bottom:1px solid #eee;
 }
 
-.search-area {
-  padding: 20px;
+.header-left{font-weight:700}
+.wiki-link{color:var(--accent); text-decoration:none}
+
+.header-line{margin:0;border:0;border-top:1px solid #eee}
+
+main{max-width:980px;margin:20px auto;padding:0 16px}
+
+.search-area{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-bottom:18px;
 }
 
-#searchInput {
-  width: 100%;
-  padding: 12px;
-  font-size: 18px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
+#searchInput{
+  padding:12px 14px;
+  font-size:16px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  width:100%;
 }
 
-.member-select label {
-  margin-right: 12px;
-}
+.member-select{display:flex;gap:12px;flex-wrap:wrap}
+.member-select label{font-size:14px;color:var(--muted)}
 
-.sort-tabs {
-  margin: 20px 0;
+.sort-tabs{display:flex;gap:8px}
+.tab{
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  background:#fff;
+  cursor:pointer;
 }
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-.tab {
-  padding: 10px 16px;
-  border: 1px solid #ccc;
-  background: #f8f8f8;
-  cursor: pointer;
-}
+.results{display:block;margin-top:8px}
 
-.tab.active {
-  background: #000;
-  color: #fff;
+/* result item */
+.result-item{
+  background:var(--card);
+  border:1px solid #eee;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:12px;
 }
+.result-title{margin:0 0 6px 0;font-size:18px}
+.result-title a{color:var(--accent);text-decoration:none}
+.result-meta{font-size:13px;color:var(--muted);display:flex;gap:12px;margin-bottom:8px}
+.result-excerpt{margin:0;color:#444}
 
-.results {
-  padding: 20px;
-}
-
-.video-card {
-  border: 1px solid #ddd;
-  padding: 16px;
-  margin-bottom: 20px;
-  background: #fafafa;
-}
-
-.video-card h3 {
-  margin-top: 0;
-}
-
-@media (max-width: 600px) {
-  .video-card {
-    font-size: 14px;
-  }
-}
+/* no results */
+.no-results{padding:18px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #eee;border-radius:8px}
