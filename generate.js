@@ -1,61 +1,47 @@
-import fs from "fs";
-import path from "path";
-import { execSync } from "child_process";
-
-const CSV_PATH = "./data.csv";
-const PAGES_DIR = "./public/pages";
-
-// HTMLテンプレート（マッキーのCSV用）
-function createHTML(id, title, members, url) {
-  return `
+const template = `
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>${title}</title>
+  <title>{{title}} - ESPICE 踊ってみた動画</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
-  <h1>${title}</h1>
-  <p>URL: <a href="${url}" target="_blank">${url}</a></p>
-  <p>メンバー: ${members}</p>
+
+  <div class="video-page">
+
+    <h1>{{title}}</h1>
+    <p class="member">出演：{{member}}</p>
+
+    <div class="video-frame">
+      <iframe width="560" height="315"
+        src="https://www.youtube.com/embed/{{youtubeId}}"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <div class="video-info">
+      <p><strong>再生数：</strong> {{views}} 回</p>
+      <p><strong>投稿日：</strong> {{date}}</p>
+    </div>
+
+    <div class="description">
+      <h2>動画説明</h2>
+      <p>{{description}}</p>
+    </div>
+
+    <p>
+      <a href="{{url}}" target="_blank">YouTubeで見る</a>
+    </p>
+
+    <p>
+      <a href="../index.html">← 検索ページに戻る</a>
+    </p>
+
+  </div>
+
 </body>
 </html>
 `;
-}
-
-function generatePages() {
-  const csv = fs.readFileSync(CSV_PATH, "utf-8").trim();
-  const lines = csv.split("\n").slice(1); // ヘッダー除外
-
-  if (!fs.existsSync(PAGES_DIR)) {
-    fs.mkdirSync(PAGES_DIR, { recursive: true });
-  }
-
-  for (const line of lines) {
-    const cols = line.split(",");
-
-    const id = cols[0];
-    const title = cols[1];
-    const members = cols[2];
-    const url = cols[3];
-
-    const html = createHTML(id, title, members, url);
-
-    fs.writeFileSync(`${PAGES_DIR}/${id}.html`, html);
-  }
-
-  console.log("✔ HTML生成完了");
-}
-
-function generatePagefind() {
-  console.log("✔ Pagefind再生成中…");
-  execSync(`npx pagefind --source public`, { stdio: "inherit" });
-  console.log("✔ Pagefind再生成完了");
-}
-
-function main() {
-  generatePages();
-  generatePagefind();
-}
-
-main();

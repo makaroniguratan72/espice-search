@@ -1,2 +1,3 @@
-id,title,member,url
-001,ネス × ゾマ「踊ってみた」,ネス;ゾマ,https://youtu.be/xxxx
+id,title,member,youtubeId,url,views,date,description,thumbnail
+1,タイトル1,NES,dQw4w9WgXcQ,https://www.youtube.com/watch?v=dQw4w9WgXcQ,123456,2024-06-01,"説明文ここ","https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
+2,タイトル2,ぱんだ,AbCdEfGhIjK,https://www.youtube.com/watch?v=AbCdEfGhIjK,98765,2024-05-20,"説明文ここ","https://img.youtube.com/vi/AbCdEfGhIjK/maxresdefault.jpg"
