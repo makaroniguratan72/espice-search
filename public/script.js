@@ -1,4 +1,4 @@
-// script.js - 完全版（Pagefind 内部API自動検出 + entry.json フォールバック）
+// script.js - 完全版（内部API自動検出 + entry.json フォールバック + 初期全件表示）
 // public/script.js に上書きしてください
 
 /* ユーティリティ -------------------------------------------------- */
@@ -50,12 +50,12 @@ function renderResults(items){
   container.innerHTML = '';
 
   const wrapper = document.createElement('div');
-  wrapper.className = 'pf-results pf-results--list';
+  wrapper.className = 'pf-results pf-results--list wiki-results';
   container.appendChild(wrapper);
 
   if(!items || items.length === 0){
     const no = document.createElement('div');
-    no.className = 'no-results pf-no-results';
+    no.className = 'no-results pf-no-results wiki-no-results';
     no.textContent = '該当する動画が見つかりませんでした。';
     wrapper.appendChild(no);
     return;
@@ -63,23 +63,23 @@ function renderResults(items){
 
   items.forEach(item => {
     const card = document.createElement('div');
-    card.className = 'pf-result pf-result--item result-item';
+    card.className = 'pf-result pf-result--item result-item wiki-result';
 
     const title = document.createElement('h3');
-    title.className = 'pf-result__title result-title';
+    title.className = 'pf-result__title result-title wiki-title';
     const a = document.createElement('a');
     a.href = item.url || '#';
     a.innerHTML = escapeHtml(item.title || 'タイトルなし');
     title.appendChild(a);
 
     const meta = document.createElement('div');
-    meta.className = 'pf-result__meta result-meta';
+    meta.className = 'pf-result__meta result-meta wiki-meta';
     meta.innerHTML = `<span class="meta-member">出演：${escapeHtml(item.member)}</span>
                       <span class="meta-views">再生数：${escapeHtml(String(item.views))}</span>
                       <span class="meta-date">投稿日：${escapeHtml(item.date)}</span>`;
 
     const excerpt = document.createElement('p');
-    excerpt.className = 'pf-result__excerpt result-excerpt';
+    excerpt.className = 'pf-result__excerpt result-excerpt wiki-excerpt';
     excerpt.innerHTML = escapeHtml(item.excerpt || '');
 
     card.appendChild(title);
@@ -236,6 +236,16 @@ async function detectAndWrapSearchFunction(pf) {
       };
       console.log('Injected fallback pagefind.search (uses pagefind-entry.json results).');
     }
+
+    // 初期表示で全件をレンダリング（フォールバック読み込み完了直後）
+    try {
+      if (fallbackEntries && fallbackEntries.length) {
+        renderResults(fallbackEntries);
+        console.log('Initial render: displayed all fallback entries.');
+      }
+    } catch (e) {
+      console.warn('Initial render failed:', e);
+    }
   }
 
   async function runSearch(query) {
@@ -280,7 +290,9 @@ async function detectAndWrapSearchFunction(pf) {
     sortPopularBtn.addEventListener('click', () => { sortPopularBtn.classList.add('active'); sortNewBtn.classList.remove('active'); runSearch(input ? input.value : ''); });
   }
 
-  runSearch('');
+  // 既に初期表示を行っている場合はここでの runSearch('') は不要,
+  // ただし searchFn がある場合は空クエリで初期検索を試みる
+  if (searchFn) runSearch('');
 
   window.__espice_debug = { hasUI: !!pf, hasSearchFn: !!searchFn, fallbackCount: fallbackEntries ? fallbackEntries.length : 0 };
   console.log('espice debug:', window.__espice_debug);
