@@ -8,15 +8,44 @@
 
   <!-- Pagefind UI を ES Module として読み込む（named import） -->
   <script type="module">
-    import { PagefindUI } from "/pagefind/pagefind-ui.js";
+  (async () => {
+    try {
+      const mod = await import('/pagefind/pagefind-ui.js');
+      // 可能性のあるエクスポート名を順にチェック
+      const PagefindUI =
+        mod.PagefindUI ||
+        mod.Pagefind ||
+        mod.default ||
+        mod.createPagefindUI ||
+        mod.PagefindModularUI ||
+        mod.PagefindComponentUI;
 
-    window.addEventListener("DOMContentLoaded", () => {
-      window.pagefind = new PagefindUI({
-        element: "#searchResults",
+      if (!PagefindUI) {
+        console.error('Pagefind UI export not found. Available exports:', Object.keys(mod));
+        return;
+      }
+
+      // インスタンス化（必要なら await で初期化を待つ）
+      const instance = new PagefindUI({
+        element: '#searchResults',
         showSubResults: true,
       });
-    });
-  </script>
+
+      // 一部ビルドは非同期初期化を返す場合があるので安全策
+      if (instance && typeof instance.then === 'function') {
+        window.pagefind = await instance;
+      } else {
+        window.pagefind = instance;
+      }
+
+      // 最低限の確認ログ
+      console.log('Pagefind initialized', window.pagefind);
+    } catch (err) {
+      console.error('Failed to load pagefind-ui.js', err);
+    }
+  })();
+</script>
+
 </head>
 
 <body>
