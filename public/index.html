@@ -6,12 +6,11 @@
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- Pagefind UI を ES Module として読み込む -->
+  <!-- Pagefind UI を ES Module として読み込む（named import） -->
   <script type="module">
-    import PagefindUI from "/pagefind/pagefind-ui.js";
+    import { PagefindUI } from "/pagefind/pagefind-ui.js";
 
     window.addEventListener("DOMContentLoaded", () => {
-      // PagefindUI を初期化（script.js が使う検索結果エリア）
       window.pagefind = new PagefindUI({
         element: "#searchResults",
         showSubResults: true,
