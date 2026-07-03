@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ESPICE SEARCH</title>
+
+  <!-- Pagefind UI -->
+  <link rel="stylesheet" href="pagefind/pagefind-ui.css">
+  <script src="pagefind/pagefind-ui.js"></script>
+
+  <!-- メインCSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="header-left">ESPICE SEARCH</div>
+    <div class="header-right">
+      <a href="https://espice.miraheze.org/wiki/メインページ" class="wiki-link">Wikiに戻る</a>
+    </div>
+  </header>
+  <hr class="header-line">
+
+  <!-- 検索エリア -->
+  <div class="search-area">
+    <input type="text" id="searchInput" placeholder="動画を検索…" />
+
+    <div class="member-select">
+      <label><input type="checkbox" value="ネス"> ネス</label>
+      <label><input type="checkbox" value="ゾマ"> ゾマ</label>
+      <label><input type="checkbox" value="とぅーし"> とぅーし</label>
+      <label><input type="checkbox" value="凪"> 凪</label>
+      <label><input type="checkbox" value="KOSUKE"> KOSUKE</label>
+    </div>
+
+    <!-- タブ -->
+    <div class="sort-tabs">
+      <button id="sortNew" class="tab active">新着順</button>
+      <button id="sortPopular" class="tab">人気順</button>
+    </div>
+  </div>
+
+  <!-- 結果表示 -->
+  <div id="searchResults" class="results"></div>
+
+  <!-- メインJS -->
+  <script src="script.js"></script>
+
+</body>
+</html>
