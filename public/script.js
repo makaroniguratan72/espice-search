@@ -1,67 +1,96 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const index = await PagefindUI.load();
-  const searchInput = document.getElementById("searchInput");
-  const resultsContainer = document.getElementById("searchResults");
+  const pagefind = await new PagefindUI({
+    element: "#searchResults",
+    showImages: false,
+    showSubResults: false,
+  });
 
-  // メンバー全員 ON
-  const memberChecks = document.querySelectorAll(".member-option input");
-  memberChecks.forEach(cb => cb.checked = true);
+  // 初期表示（新着順）
+  loadInitialVideos();
 
-  // 初期表示：空欄検索 → 全動画表示
-  const initialResults = await index.search("");
-  renderResults(initialResults.results);
+  // 新着順
+  document.getElementById("sortNew").addEventListener("click", () => {
+    loadInitialVideos("new");
+  });
 
-  // 検索イベント
-  searchInput.addEventListener("input", async () => {
-    const query = searchInput.value;
-    const results = await index.search(query);
-    renderResults(results.results);
+  // 人気順
+  document.getElementById("sortPopular").addEventListener("click", () => {
+    loadInitialVideos("popular");
   });
 
   // メンバー絞り込み
-  memberChecks.forEach(cb => {
-    cb.addEventListener("change", async () => {
-      const query = searchInput.value;
-      const results = await index.search(query);
-      renderResults(results.results);
+  const memberCheckboxes = document.querySelectorAll(".member-option input");
+  memberCheckboxes.forEach(cb => {
+    cb.addEventListener("change", () => {
+      applyFilters();
     });
   });
 
-  // 新着順
-  document.getElementById("sortNew").addEventListener("click", async () => {
-    const results = await index.search(searchInput.value);
-    const sorted = results.results.sort((a, b) => b.meta.date.localeCompare(a.meta.date));
-    renderResults(sorted);
-  });
-
-  // 人気順（YouTube viewCount）
-  document.getElementById("sortPopular").addEventListener("click", async () => {
-    const results = await index.search(searchInput.value);
-    const sorted = results.results.sort((a, b) => b.meta.views - a.meta.views);
-    renderResults(sorted);
-  });
-
+  // 検索バー
+  document.getElementById("searchInput").addEventListener("input", applyFilters);
 });
 
-// 結果描画
+
+// ===============================
+// 初期表示
+// ===============================
+async function loadInitialVideos(sort = "new") {
+  const res = await fetch("/pagefind/search.json");
+  const data = await res.json();
+
+  let results = data.results;
+
+  if (sort === "new") {
+    results.sort((a, b) => new Date(b.meta.date) - new Date(a.meta.date));
+  } else {
+    results.sort((a, b) => Number(b.meta.views) - Number(a.meta.views));
+  }
+
+  renderResults(results);
+}
+
+
+// ===============================
+// 絞り込み
+// ===============================
+async function applyFilters() {
+  const keyword = document.getElementById("searchInput").value.trim();
+  const memberFilters = [...document.querySelectorAll(".member-option input:checked")].map(cb => cb.value);
+
+  const res = await fetch("/pagefind/search.json");
+  const data = await res.json();
+
+  let results = data.results;
+
+  if (keyword) {
+    results = results.filter(r => r.meta.title.includes(keyword));
+  }
+
+  if (memberFilters.length > 0) {
+    results = results.filter(r => memberFilters.some(m => r.meta.member.includes(m)));
+  }
+
+  renderResults(results);
+}
+
+
+// ===============================
+// 表示
+// ===============================
 function renderResults(results) {
   const container = document.getElementById("searchResults");
   container.innerHTML = "";
 
-  const selectedMembers = [...document.querySelectorAll(".member-option input:checked")].map(cb => cb.value);
-
   results.forEach(r => {
-    if (!selectedMembers.includes(r.meta.member)) return;
-
-    const card = document.createElement("div");
-    card.className = "video-card";
-    card.innerHTML = `
-      <img src="${r.meta.thumbnail}" class="thumb">
-      <div class="info">
+    const html = `
+      <div class="video-card">
         <h3>${r.meta.title}</h3>
-        <p>${r.meta.member}</p>
+        <p>出演：${r.meta.member}</p>
+        <p>再生数：${r.meta.views}</p>
+        <p>投稿日：${r.meta.date}</p>
+        <a href="pages/${r.meta.id}.html">詳細ページへ</a>
       </div>
     `;
-    container.appendChild(card);
+    container.innerHTML += html;
   });
 }
