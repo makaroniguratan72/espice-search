@@ -1,46 +1,36 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const pagefind = await new PagefindUI({
-    element: "#searchResults",
-    showImages: false,
-    showSubResults: false,
-  });
+  loadVideos("new");
 
-  // 初期表示（新着順）
-  loadInitialVideos();
-
-  // 新着順
   document.getElementById("sortNew").addEventListener("click", () => {
-    loadInitialVideos("new");
+    activateTab("sortNew");
+    loadVideos("new");
   });
 
-  // 人気順
   document.getElementById("sortPopular").addEventListener("click", () => {
-    loadInitialVideos("popular");
+    activateTab("sortPopular");
+    loadVideos("popular");
   });
 
-  // メンバー絞り込み
-  const memberCheckboxes = document.querySelectorAll(".member-option input");
-  memberCheckboxes.forEach(cb => {
-    cb.addEventListener("change", () => {
-      applyFilters();
-    });
-  });
-
-  // 検索バー
   document.getElementById("searchInput").addEventListener("input", applyFilters);
+
+  document.querySelectorAll(".member-select input").forEach(cb => {
+    cb.addEventListener("change", applyFilters);
+  });
 });
 
+/* タブ切り替え */
+function activateTab(id) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
 
-// ===============================
-// 初期表示
-// ===============================
-async function loadInitialVideos(sort = "new") {
-  const res = await fetch("/pagefind/search.json");
+/* 初期表示・並び替え */
+async function loadVideos(mode) {
+  const res = await fetch("pagefind/search.json");
   const data = await res.json();
-
   let results = data.results;
 
-  if (sort === "new") {
+  if (mode === "new") {
     results.sort((a, b) => new Date(b.meta.date) - new Date(a.meta.date));
   } else {
     results.sort((a, b) => Number(b.meta.views) - Number(a.meta.views));
@@ -49,40 +39,33 @@ async function loadInitialVideos(sort = "new") {
   renderResults(results);
 }
 
-
-// ===============================
-// 絞り込み
-// ===============================
+/* 絞り込み */
 async function applyFilters() {
   const keyword = document.getElementById("searchInput").value.trim();
-  const memberFilters = [...document.querySelectorAll(".member-option input:checked")].map(cb => cb.value);
+  const members = [...document.querySelectorAll(".member-select input:checked")].map(cb => cb.value);
 
-  const res = await fetch("/pagefind/search.json");
+  const res = await fetch("pagefind/search.json");
   const data = await res.json();
-
   let results = data.results;
 
   if (keyword) {
     results = results.filter(r => r.meta.title.includes(keyword));
   }
 
-  if (memberFilters.length > 0) {
-    results = results.filter(r => memberFilters.some(m => r.meta.member.includes(m)));
+  if (members.length > 0) {
+    results = results.filter(r => members.some(m => r.meta.member.includes(m)));
   }
 
   renderResults(results);
 }
 
-
-// ===============================
-// 表示
-// ===============================
+/* カード表示 */
 function renderResults(results) {
   const container = document.getElementById("searchResults");
   container.innerHTML = "";
 
   results.forEach(r => {
-    const html = `
+    container.innerHTML += `
       <div class="video-card">
         <h3>${r.meta.title}</h3>
         <p>出演：${r.meta.member}</p>
@@ -91,6 +74,5 @@ function renderResults(results) {
         <a href="pages/${r.meta.id}.html">詳細ページへ</a>
       </div>
     `;
-    container.innerHTML += html;
   });
 }
