@@ -1,5 +1,5 @@
 // script.js - 完全版（Pagefind 内部API自動検出 + entry.json フォールバック）
-// そのまま public/script.js に上書きしてデプロイしてや
+// そのまま public/script.js に上書きしてデプロイしてください
 
 /* ユーティリティ -------------------------------------------------- */
 
@@ -229,6 +229,31 @@ async function detectAndWrapSearchFunction(pf) {
       }
     } catch (e) {
       console.warn('Error fetching pagefind-entry.json:', e);
+    }
+  }
+
+  // 3.5) フォールバックとして window.pagefind.search を注入（内部APIが無い場合の互換パッチ）
+  if (!searchFn && fallbackEntries) {
+    if (!window.pagefind) window.pagefind = {};
+    if (typeof window.pagefind.search !== 'function') {
+      window.pagefind.search = async function(query) {
+        const q = (query || '').toString().trim().toLowerCase();
+        const matched = (q.length > 0)
+          ? fallbackEntries.filter(e => {
+              return (e.title || '').toLowerCase().includes(q)
+                  || (e.excerpt || '').toLowerCase().includes(q)
+                  || (e.member || '').toLowerCase().includes(q);
+            })
+          : fallbackEntries.slice();
+
+        const results = matched.map(m => ({ data: {
+          id: m.id, title: m.title, excerpt: m.excerpt, member: m.member,
+          views: m.views, date: m.date, url: m.url
+        }}));
+
+        return { results };
+      };
+      console.log('Injected fallback pagefind.search (uses pagefind-entry.json results).');
     }
   }
 
