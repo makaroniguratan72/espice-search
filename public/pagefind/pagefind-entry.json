@@ -11,7 +11,7 @@
     ],
     "youtubeId": "y7evMEEYJf4",
     "url": "https://www.youtube.com/watch?v=y7evMEEYJf4",
-    "views": 123456,
+    "views": 10597,
     "date": "2026-04-14",
     "description": "『UPRISING』Official Dance Music Video【RAB ESPICE feat. らっぷびと & アリレム】",
     "thumbnail": "https://i.ytimg.com/vi/y7evMEEYJf4/maxresdefault.jpg"
@@ -28,7 +28,7 @@
     ],
     "youtubeId": "X-F6QXqMXCc",
     "url": "https://www.youtube.com/watch?v=X-F6QXqMXCc",
-    "views": 98765,
+    "views": 7315,
     "date": "2026-06-13",
     "description": "プロが セブンスシスターズ 「SEVENTH HAVEN」踊ってみた",
     "thumbnail": "https://i.ytimg.com/vi/X-F6QXqMXCc/maxresdefault.jpg"
@@ -53,29 +53,29 @@
     "title": "ワールドイズマイン CPK! Remix",
     "members": [
       "凪",
-      "KOSUKE",
-      "VNL5QJkruHo",
-      "https://www.youtube.com/watch?v=VNL5QJkruHo",
-      "6232",
-      "2026-06-28",
-      "\"【超かぐや姫!】ワールドイズマイン CPK! Remix 踊ってみた!【凪KOSUKE】\"\r\n5",
-      "【ESPICE×GANMI】テクノブレイク",
-      "\"ネス",
+      "KOSUKE"
+    ],
+    "youtubeId": "VNL5QJkruHo",
+    "url": "https://www.youtube.com/watch?v=VNL5QJkruHo",
+    "views": 6232,
+    "date": "2026-06-28",
+    "description": "【超かぐや姫!】ワールドイズマイン CPK! Remix 踊ってみた!【凪KOSUKE】",
+    "thumbnail": "https://i.ytimg.com/vi/VNL5QJkruHo/maxresdefault.jpg"
+  },
+  {
+    "id": 5,
+    "title": "【ESPICE×GANMI】テクノブレイク",
+    "members": [
+      "ネス",
       "ゾマ",
       "とぅーし",
-      "凪",
-      "KOSUKE",
-      "ztEXwSA9tgU",
-      "https://www.youtube.com/watch?v=ztEXwSA9tgU",
-      "20940",
-      "2026-04-15",
-      "\"【ESPICE×GANMI】テクノブレイク 踊ってみた"
+      "凪"
     ],
-    "youtubeId": "",
-    "url": "",
-    "views": 0,
-    "date": "",
-    "description": "",
-    "thumbnail": ""
+    "youtubeId": "KOSUKE",
+    "url": "ztEXwSA9tgU",
+    "views": null,
+    "date": "20940",
+    "description": "2026-04-15",
+    "thumbnail": "https://i.ytimg.com/vi/KOSUKE/maxresdefault.jpg"
   }
 ]
