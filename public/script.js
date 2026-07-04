@@ -1,5 +1,5 @@
 // ===============================
-// ESPICE SEARCH - fallback専用 完全版
+// ESPICE SEARCH - fallback専用 完全版（サムネ対応）
 // ===============================
 
 // HTMLエスケープ
@@ -28,7 +28,7 @@ function normalizeEntries(entries){
       views: Number(e.views || 0),
       date: e.date || '',
       description: e.description || '',
-      thumbnail: e.thumbnail || ''
+      thumbnail: e.thumbnail || ''   // ★ サムネ対応
     };
   });
 }
@@ -64,7 +64,7 @@ function sortEntries(entries, mode){
   return entries;
 }
 
-// 描画
+// 描画（★サムネ対応）
 function renderResults(items){
   const container = document.getElementById('searchResults');
   container.innerHTML = '';
@@ -79,13 +79,20 @@ function renderResults(items){
     card.className = 'result-card';
 
     card.innerHTML = `
-      <h3><a href="${item.url}" target="_blank">${escapeHtml(item.title)}</a></h3>
-      <div class="meta">
-        <span>出演：${escapeHtml(item.members.join(', '))}</span>
-        <span>再生数：${item.views}</span>
-        <span>投稿日：${escapeHtml(item.date)}</span>
+      <img src="${item.thumbnail}" class="result-thumb">
+
+      <div class="result-body">
+        <h3><a href="${item.url}" target="_blank">${escapeHtml(item.title)}</a></h3>
+
+        <div class="meta">
+          <span>出演：${escapeHtml(item.members.join(', '))}</span>
+          <!-- 再生数は非表示 -->
+          <span style="display:none;">再生数：${item.views}</span>
+          <span>投稿日：${escapeHtml(item.date)}</span>
+        </div>
+
+        <p>${escapeHtml(item.description)}</p>
       </div>
-      <p>${escapeHtml(item.description)}</p>
     `;
 
     container.appendChild(card);

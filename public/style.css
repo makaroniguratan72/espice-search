@@ -294,3 +294,57 @@ body {
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
+/* ===============================
+   右上リンクを小さめに（Wiki風）
+   =============================== */
+.header-right a {
+  font-size: 90%;
+  padding: 4px 10px;
+}
+
+/* ===============================
+   全体の文字サイズを少し小さめに
+   =============================== */
+body {
+  font-size: 95%;
+}
+
+.result-card h3 a {
+  font-size: 120%;
+}
+/* ===============================
+   スマホだけ 2 列表示（メンバー順固定）
+   =============================== */
+
+/* PCでは横並び */
+.member-select {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 14px;
+}
+
+/* スマホでは 2 列グリッドに変更 */
+@media (max-width: 600px) {
+  .member-select {
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* 2列 */
+    gap: 12px 16px;                   /* 行・列の間隔 */
+  }
+
+  .member-select label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.04);
+  }
+
+  /* メンバーの順番を固定（上段：ネス・ゾマ・とぅーし / 下段：凪・KOSUKE） */
+  .member-select label:nth-child(1) { order: 1; } /* ネス */
+  .member-select label:nth-child(2) { order: 2; } /* ゾマ */
+  .member-select label:nth-child(3) { order: 3; } /* とぅーし */
+  .member-select label:nth-child(4) { order: 4; } /* 凪 → 下段 */
+  .member-select label:nth-child(5) { order: 5; } /* KOSUKE → 下段 */
+}
