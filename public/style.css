@@ -1,5 +1,5 @@
 /* ===============================
-   ESPICE SEARCH — Wiki寄せデザイン
+   ESPICE SEARCH — Wiki寄せデザイン 完全版
    =============================== */
 
 /* 全体 */
@@ -107,13 +107,24 @@ body {
 }
 
 .tab:hover {
+  transform: scale(1.05);
   background: rgba(77,195,255,0.14);
 }
 
+/* ESPICEメンバーカラーのグラデーション（選択中） */
 .tab.active {
-  background: rgba(77,195,255,0.20);
-  color: #1aa7ff;
+  background: linear-gradient(
+    90deg,
+    #ff8c00,   /* オレンジ（ゾマ） */
+    #00aaff,   /* 水色（とぅーし） */
+    #66cc66,   /* 若緑（凪） */
+    #a066cc    /* 紫（KOSUKE） */
+  ) !important;
+  color: #fff !important;
   font-weight: bold;
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  border-radius: 20px;
 }
 
 /* 結果エリア */
@@ -122,7 +133,7 @@ body {
   margin: 20px auto 60px;
 }
 
-/* 結果カード */
+/* 結果カード（サムネ対応） */
 .result-card {
   background: #ffffff;
   border-radius: 14px;
@@ -130,6 +141,10 @@ body {
   margin-bottom: 18px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: 0.2s;
+
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
 }
 
 .result-card:hover {
@@ -137,16 +152,38 @@ body {
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);
 }
 
-/* タイトルリンク（Wiki風） */
+/* サムネ */
+.result-thumb {
+  width: 180px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+}
+
+@media (max-width: 600px) {
+  .result-card {
+    flex-direction: column;
+  }
+  .result-thumb {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* タイトル（黒文字でかっこよく） */
 .result-card h3 a {
-  color: #4dc3ff;
+  color: #222 !important;
+  font-weight: 700;
+  font-size: 125%;
   text-decoration: none;
-  font-size: 120%;
-  font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
 .result-card h3 a:hover {
-  color: #1aa7ff;
+  color: #555 !important;
+  transform: translateY(-1px);
+  transition: 0.15s;
 }
 
 /* メタ情報 */
@@ -185,4 +222,75 @@ body {
     flex: 1;
     text-align: center;
   }
+}
+/* ===============================
+   ① メンバー選択のグレー背景を完全に消す
+   =============================== */
+
+.member-select label {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 横並び固定（スマホでも横スクロール許可） */
+.member-select {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* チェックボックス自体の視認性アップ */
+.member-select input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+/* スマホでも横並び維持 */
+@media (max-width: 600px) {
+  .member-select {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+}
+
+/* ===============================
+   ② 再生数を非表示にする
+   =============================== */
+
+/* メタ情報の2番目の span（再生数）を消す */
+.meta span:nth-child(2) {
+  display: none !important;
+}
+
+/* ===============================
+   ③ ESPICEカラーの選択タブ（既存のまま）
+   =============================== */
+
+/* ホバー時の軽い拡大（既存強化） */
+.tab:hover {
+  transform: scale(1.06);
+}
+
+/* 選択中タブの強調（既存のまま） */
+.tab.active {
+  background: linear-gradient(
+    90deg,
+    #ff8c00,
+    #00aaff,
+    #66cc66,
+    #a066cc
+  ) !important;
+  color: #fff !important;
+  font-weight: bold;
+  transform: scale(1.05);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
