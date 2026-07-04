@@ -1,3 +1,5 @@
-id,title,member,youtubeId,url,views,date,description,thumbnail
-1,UPRISING,ネス;ゾマ;とぅーし;凪;KOUSUKE,y7evMEEYJf4,https://www.youtube.com/watch?v=y7evMEEYJf4,123456,2026-04-14,"『UPRISING』Offiicial Dance Music Video【RAB ESPICE feat. らっぷびと & アリレム】","https://www.youtube.com/watch?v=y7evMEEYJf4/maxresdefault.jpg"
-2,SEVENTH HAVEN,ネス;ゾマ;とぅーし;凪;KOUSUKE,X-F6QXqMXCc,https://www.youtube.com/watch?v=X-F6QXqMXCc,98765,2026-06-13,"プロが セブンスシスターズ 「SEVENTH HAVEN」踊ってみた【ESPICE】","https://www.youtube.com/watch?v=X-F6QXqMXCc/maxresdefault.jpg"
+id,title,members,youtubeId,url,views,date,description
+1,UPRISING,"ネス,ゾマ,とぅーし,凪,KOSUKE",y7evMEEYJf4,https://www.youtube.com/watch?v=y7evMEEYJf4,123456,2026-04-14,"『UPRISING』Official Dance Music Video【RAB ESPICE feat. らっぷびと & アリレム】"
+2,SEVENTH HAVEN,"ネス,ゾマ,とぅーし,凪,KOSUKE",X-F6QXqMXCc,https://www.youtube.com/watch?v=X-F6QXqMXCc,98765,2026-06-13,"プロが セブンスシスターズ 「SEVENTH HAVEN」踊ってみた"
+3,OBF 【ジョー・力一】,"ネス,ゾマ,とぅーし,r6EBWu5BR7o,https://www.youtube.com/watch?v=r6EBWu5BR7o,17354,2026-07-03,"プロがOBF 踊ってみた【ジョー・力一】"
+3,ワールドイズマイン CPK! Remix ,"凪,KOSUKE,VNL5QJkruHo,https://www.youtube.com/watch?v=VNL5QJkruHo,6232,2026-06-28,"【超かぐや姫!】ワールドイズマイン CPK! Remix 踊ってみた!【凪KOSUKE】"
