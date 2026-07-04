@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ------------------------------------------------------------
 // ★ Pagefind の静的ファイルを配信（これが今回の本命）
 // ------------------------------------------------------------
-app.use('/pagefind', express.static(path.join(__dirname, 'public/pagefind')));
+app.use('/pf', express.static(path.join(__dirname, 'public/pf')));
 
 // ------------------------------------------------------------
 // ★ ルートは static に任せる（←これが重要）
