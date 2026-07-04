@@ -14,16 +14,35 @@
   <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
   <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css">
 
-  <!-- ★ Pagefind 検索エンジン本体（必須） -->
- <!-- <script src="/pagefind/pagefind.js"></script> -->
-  <!-- ★ Pagefind UI（必須） -->
-  <!-- <script src="/pagefind/pagefind-ui.js"></script> -->
+  <!-- ★ Pagefind 検索エンジン本体（UMDビルドを先に読み込む） -->
+  <script src="/pagefind/pagefind.js"></script>
 
-    <!-- Pagefind をモジュールとして読み込んで初期化（import.meta 対応） -->
+  <!-- Pagefind をモジュールとして読み込んで初期化（import.meta 対応） -->
   <script type="module">
     (async () => {
       try {
-        // pagefind-ui.js をモジュールとして import（ESM 版を想定）
+        // まず UMD でグローバルに pagefind が提供されているか確認
+        if (window.pagefind && typeof window.pagefind.search === 'function') {
+          console.log('Pagefind initialized (UMD global)');
+          // もし UI モジュールが必要なら読み込む（モジュール版 UI を使う場合）
+          try {
+            const mod = await import('/pagefind/pagefind-ui.js');
+            const PagefindUI = mod.default || mod.PagefindUI || window.PagefindUI;
+            if (PagefindUI) {
+              if (typeof PagefindUI === 'function') {
+                const uiInstance = new PagefindUI({ element: '#searchResults', showSubResults: true, basePath: '/pagefind/' });
+                if (uiInstance && typeof uiInstance.then === 'function') await uiInstance;
+              } else if (PagefindUI && typeof PagefindUI.init === 'function') {
+                await PagefindUI.init({ element: '#searchResults', showSubResults: true, basePath: '/pagefind/' });
+              }
+            }
+          } catch (uiErr) {
+            console.warn('Pagefind UI module import failed, but core is available:', uiErr);
+          }
+          return;
+        }
+
+        // UMD が無ければモジュール版 UI を import して初期化を試みる
         const mod = await import('/pagefind/pagefind-ui.js');
         const PagefindUI = mod.default || mod.PagefindUI || window.PagefindUI;
 
@@ -54,7 +73,6 @@
       }
     })();
   </script>
-
 
 </head>
 
