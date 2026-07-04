@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "title": "UPRISING",
+    "members": [
+      "ネス",
+      "ゾマ",
+      "とぅーし",
+      "凪",
+      "KOUSUKE"
+    ],
+    "youtubeId": "y7evMEEYJf4",
+    "url": "https://www.youtube.com/watch?v=y7evMEEYJf4",
+    "views": 123456,
+    "date": "2026-04-14",
+    "description": "『UPRISING』Offiicial Dance Music Video【RAB ESPICE feat. らっぷびと & アリレム】",
+    "thumbnail": "https://www.youtube.com/watch?v=y7evMEEYJf4/maxresdefault.jpg"
+  },
+  {
+    "id": 2,
+    "title": "SEVENTH HAVEN",
+    "members": [
+      "ネス",
+      "ゾマ",
+      "とぅーし",
+      "凪",
+      "KOUSUKE"
+    ],
+    "youtubeId": "X-F6QXqMXCc",
+    "url": "https://www.youtube.com/watch?v=X-F6QXqMXCc",
+    "views": 98765,
+    "date": "2026-06-13",
+    "description": "プロが セブンスシスターズ 「SEVENTH HAVEN」踊ってみた【ESPICE】",
+    "thumbnail": "https://www.youtube.com/watch?v=X-F6QXqMXCc/maxresdefault.jpg"
+  }
+]
