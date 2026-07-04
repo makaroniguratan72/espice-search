@@ -1,5 +1,6 @@
 // ===============================
-// ESPICE SEARCH - fallback専用 完全版（サムネ対応 + ひらがな検索）
+// ESPICE SEARCH - fallback専用 完全版
+// （サムネ対応 + ひらがな検索 + ローマ字検索）
 // ===============================
 
 // HTMLエスケープ
@@ -40,6 +41,36 @@ function hiraToKana(str) {
   );
 }
 
+// ひらがな → ローマ字変換
+function kanaToRomaji(str) {
+  const map = {
+    あ:"a", い:"i", う:"u", え:"e", お:"o",
+    か:"ka",き:"ki",く:"ku",け:"ke",こ:"ko",
+    さ:"sa",し:"shi",す:"su",せ:"se",そ:"so",
+    た:"ta",ち:"chi",つ:"tsu",て:"te",と:"to",
+    な:"na",に:"ni",ぬ:"nu",ね:"ne",の:"no",
+    は:"ha",ひ:"hi",ふ:"fu",へ:"he",ほ:"ho",
+    ま:"ma",み:"mi",む:"mu",め:"me",も:"mo",
+    や:"ya",ゆ:"yu",よ:"yo",
+    ら:"ra",り:"ri",る:"ru",れ:"re",ろ:"ro",
+    わ:"wa",を:"wo",ん:"n",
+    が:"ga",ぎ:"gi",ぐ:"gu",げ:"ge",ご:"go",
+    ざ:"za",じ:"ji",ず:"zu",ぜ:"ze",ぞ:"zo",
+    だ:"da",ぢ:"ji",づ:"zu",で:"de",ど:"do",
+    ば:"ba",び:"bi",ぶ:"bu",べ:"be",ぼ:"bo",
+    ぱ:"pa",ぴ:"pi",ぷ:"pu",ぺ:"pe",ぽ:"po",
+    きゃ:"kya",きゅ:"kyu",きょ:"kyo",
+    しゃ:"sha",しゅ:"shu",しょ:"sho",
+    ちゃ:"cha",ちゅ:"chu",ちょ:"cho",
+    にゃ:"nya",にゅ:"nyu",にょ:"nyo",
+    ひゃ:"hya",ひゅ:"hyu",ひょ:"hyo",
+    みゃ:"mya",みゅ:"myu",みょ:"myo",
+    りゃ:"rya",りゅ:"ryu",りょ:"ryo"
+  };
+
+  return str.replace(/(きゃ|きゅ|きょ|しゃ|しゅ|しょ|ちゃ|ちゅ|ちょ|にゃ|にゅ|にょ|ひゃ|ひゅ|ひょ|みゃ|みゅ|みょ|りゃ|りゅ|りょ|[ぁ-ん])/g, m => map[m] || m);
+}
+
 // AND 絞り込み（メンバー）
 function filterByMembers(entries, selectedMembers){
   if(selectedMembers.length === 0) return entries;
@@ -48,19 +79,29 @@ function filterByMembers(entries, selectedMembers){
   });
 }
 
-// 全文検索（ひらがな部分一致対応）
+// 全文検索（ひらがな → カタカナ → ローマ字対応）
 function fallbackSearch(entries, query){
   if(!query) return entries;
 
-  // 入力をひらがな→カタカナへ変換
-  const q = hiraToKana(query.trim().toLowerCase());
+  const hira = query.trim().toLowerCase();
+  const kana = hiraToKana(hira);
+  const roma = kanaToRomaji(hira);
 
   return entries.filter(e => {
-    const title = hiraToKana(e.title.toLowerCase());
-    const desc  = hiraToKana(e.description.toLowerCase());
-    const mem   = hiraToKana(e.members.join(' ').toLowerCase());
+    const title = e.title.toLowerCase();
+    const desc  = e.description.toLowerCase();
+    const mem   = e.members.join(' ').toLowerCase();
 
-    return title.includes(q) || desc.includes(q) || mem.includes(q);
+    return (
+      // ひらがな
+      title.includes(hira) || desc.includes(hira) || mem.includes(hira) ||
+
+      // カタカナ
+      title.includes(kana) || desc.includes(kana) || mem.includes(kana) ||
+
+      // ローマ字
+      title.includes(roma) || desc.includes(roma) || mem.includes(roma)
+    );
   });
 }
 
