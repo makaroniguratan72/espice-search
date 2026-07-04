@@ -8,92 +8,39 @@
   <!-- サイトのスタイル -->
   <link rel="stylesheet" href="/style.css">
 
-  <!-- Pagefind のスタイル -->
+  <!-- Pagefind UI のスタイル -->
   <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
   <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css">
 
-  <!-- Pagefind ローダー モジュール / グローバル両対応 -->
-  <script type="module">
-    (async () => {
-      function initPagefind(PagefindUI) {
-        try {
-          const maybeInstance = new PagefindUI({
-            element: '#searchResults',
-            showSubResults: true,
-          });
-          if (maybeInstance && typeof maybeInstance.then === 'function') {
-            maybeInstance.then(inst => { window.pagefind = inst; console.log('Pagefind initialized (async)'); });
-          } else {
-            window.pagefind = maybeInstance;
-            console.log('Pagefind initialized');
-          }
-        } catch (e) {
-          console.error('Error initializing PagefindUI:', e);
-        }
-      }
+  <!-- ★ Pagefind 検索エンジン本体（必須） -->
+  <script src="/pagefind/pagefind.js"></script>
 
-      // 1) dynamic import を試す
+  <!-- ★ Pagefind UI（必須） -->
+  <script src="/pagefind/pagefind-ui.js"></script>
+
+  <!-- Pagefind UI 初期化 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
       try {
-        const mod = await import('/pagefind/pagefind-ui.js');
-        const exportNames = Object.keys(mod || {});
-        console.log('pagefind module exports:', exportNames);
-
-        const PagefindUI =
-          mod.PagefindUI ||
-          mod.Pagefind ||
-          mod.default ||
-          mod.createPagefindUI ||
-          mod.PagefindModularUI ||
-          mod.PagefindComponentUI;
-
-        if (PagefindUI) {
-          initPagefind(PagefindUI);
-          return;
-        }
-
-        console.warn('Pagefind module did not export a usable symbol, falling back to global loader.');
-      } catch (err) {
-        console.warn('Dynamic import failed or returned no usable exports:', err);
-      }
-
-      // 2) fallback: グローバルスクリプトとして読み込む（UMD/IIFE 対応）
-      try {
-        await new Promise((resolve, reject) => {
-          if (window.PagefindUI || window.Pagefind || window.PagefindComponentUI) {
-            resolve();
-            return;
-          }
-          const s = document.createElement('script');
-          s.src = '/pagefind/pagefind-ui.js';
-          s.async = true;
-          s.onload = () => {
-            setTimeout(() => {
-              if (window.PagefindUI || window.Pagefind || window.PagefindComponentUI) {
-                resolve();
-              } else {
-                reject(new Error('pagefind-ui.js loaded but no global Pagefind symbol found'));
-              }
-            }, 50);
-          };
-          s.onerror = () => reject(new Error('Failed to load /pagefind/pagefind-ui.js as script'));
-          document.head.appendChild(s);
+        const ui = new PagefindUI({
+          element: "#searchResults",
+          showSubResults: true
         });
 
-        const PagefindUI =
-          window.PagefindUI ||
-          window.Pagefind ||
-          window.PagefindComponentUI ||
-          window.PagefindModularUI;
-
-        if (!PagefindUI) {
-          console.error('Fallback loaded but Pagefind UI global not found. Available globals:', Object.keys(window).filter(k => k.toLowerCase().includes('pagefind')));
-          return;
+        // PagefindUI が内部で pagefind インスタンスを作るので、それを拾う
+        if (ui && typeof ui.then === "function") {
+          ui.then(inst => {
+            window.pagefind = inst;
+            console.log("Pagefind initialized (async)");
+          });
+        } else {
+          window.pagefind = ui;
+          console.log("Pagefind initialized");
         }
-        initPagefind(PagefindUI);
-      } catch (err) {
-        console.error('Failed to load Pagefind UI (both module and global fallback):', err);
+      } catch (e) {
+        console.error("Error initializing PagefindUI:", e);
       }
-    })();
+    });
   </script>
 </head>
 
