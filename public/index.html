@@ -8,15 +8,18 @@
   <!-- サイトのスタイル -->
   <link rel="stylesheet" href="/style.css">
 
-  <!-- Pagefind UI のスタイル -->
+  <!-- Pagefind UI のスタイル（CSSはそのままでOK） -->
   <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
   <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css">
 
-  <!-- ★ Pagefind 検索エンジン本体（必須） -->
-  <script src="/pagefind/pagefind.js"></script>
+  <!-- ★ Pagefind 検索エンジン本体（新しいファイル名） -->
+  <script src="/pagefind/pagefind-new.js"></script>
 
-  <!-- ★ Pagefind UI（必須） -->
-  <script src="/pagefind/pagefind-ui.js"></script>
+  <!-- ★ Pagefind UI（新しいファイル名） -->
+  <script src="/pagefind/pagefind-ui-new.js"></script>
+
+  <!-- ★ Pagefind Component UI（新しいファイル名） -->
+  <script src="/pagefind/pagefind-component-ui-new.js"></script>
 
   <!-- Pagefind UI 初期化（シンプルで安定） -->
   <script>
@@ -27,7 +30,6 @@
           showSubResults: true
         });
 
-        // PagefindUI が内部で pagefind インスタンスを作る
         if (ui && typeof ui.then === "function") {
           ui.then(inst => {
             window.pagefind = inst;
