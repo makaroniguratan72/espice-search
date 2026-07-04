@@ -33,7 +33,7 @@ function normalizeEntries(entries) {
       title: d.title || d.name || '',
       excerpt: d.excerpt || d.summary || d.body || '',
       member: d.member || d.members || d.cast || '',
-      views: d.views || d.view || 0,
+      views: Number(d.views || d.view || 0) || 0,
       date: d.date || d.published || '',
       url: url
     };
@@ -99,12 +99,52 @@ function fallbackSearch(entries, query){
   });
 }
 
+/* Pagefind を明示的に初期化するフォールバック（import.meta 回避） ------------- */
+/*
+  説明:
+  - サーバに配信される pagefind.js が ESM/UMD の混在やキャッシュで問題を起こす場合がある。
+  - ここでは UMD がグローバルに提供する Pagefind コンストラクタが存在する場合に、
+    明示的に basePath を渡してインスタンス化・初期化することで import.meta の分岐を回避する。
+  - 言語はインデックスに合わせて 'ja' などに変更してください。
+*/
+(function ensurePagefindInstance() {
+  try {
+    // 既に初期化済みなら何もしない
+    if (window.__pagefind_initialized) return;
+
+    // UMD 版がグローバルに Pagefind を提供しているケース
+    const PagefindCtor = window.Pagefind || window.pagefindConstructor || null;
+
+    if (typeof PagefindCtor === 'function' && !window.pagefind) {
+      // basePath を明示的に指定して import.meta 分岐を回避する
+      window.pagefind = new PagefindCtor({ basePath: '/pagefind/' });
+      // 必要に応じて言語を指定して初期化（例: 'ja'）
+      if (window.pagefind.init && typeof window.pagefind.init === 'function') {
+        window.pagefind.init('ja').then(() => {
+          window.__pagefind_initialized = true;
+          console.log('Pagefind instance created and initialized (fallback).');
+        }).catch(e => {
+          console.warn('Pagefind fallback init failed:', e);
+        });
+      } else {
+        // init が無ければ即フラグを立てる
+        window.__pagefind_initialized = true;
+        console.log('Pagefind instance created (fallback, no init).');
+      }
+    }
+  } catch (e) {
+    console.warn('ensurePagefindInstance error:', e);
+  }
+})();
+
 /* Pagefind 検索を使うランナー --------------------------------------------- */
 async function runSearch(query, options = {}) {
   // 1) もしブラウザに pagefind.search があればそれを使う（優先）
   if (window.pagefind && typeof window.pagefind.search === 'function') {
     try {
-      const raw = await window.pagefind.search(query || '');
+      // pagefind.search の呼び出し方は実装により異なることがあるため、
+      // 文字列クエリかオブジェクトを渡す柔軟性を持たせる
+      const raw = await (typeof query === 'string' ? window.pagefind.search(query) : window.pagefind.search(query || ''));
       // raw may be { results: [...] } or array
       const resultsArray = raw && raw.results ? raw.results : (Array.isArray(raw) ? raw : []);
       const items = normalizeEntries(resultsArray);
@@ -120,7 +160,7 @@ async function runSearch(query, options = {}) {
     const res = await fetch('/pagefind/pagefind-entry.json', {cache:'no-store'});
     if (res.ok) {
       const json = await res.json();
-      let entries = json.pages || json.entries || json.results || json || [];
+      let entries = json.pages || json.entries || json.results || json.documents || json || [];
       if (!Array.isArray(entries) && typeof entries === 'object') entries = Object.values(entries);
       const norm = normalizeEntries(entries);
       const matched = fallbackSearch(norm, query || '');
@@ -151,16 +191,18 @@ async function runSearch(query, options = {}) {
 
   // Pagefind UI が読み込まれるのを待ってから初期検索（空クエリ）
   const waitForPF = setInterval(() => {
-    if (window.pagefind && typeof window.pagefind.search === 'function') {
+    // window.pagefind が使えるか、あるいは明示初期化フラグが立っているかを確認
+    if ((window.pagefind && typeof window.pagefind.search === 'function') || window.__pagefind_initialized) {
       clearInterval(waitForPF);
+      // もし Pagefind が初期化済みなら Pagefind 経由で全件表示を試みる
       runSearch(''); // 全件表示
-      console.log('Initial runSearch via window.pagefind.search');
+      console.log('Initial runSearch via window.pagefind.search or fallback init');
     }
   }, 100);
 
   // タイムアウトでフォールバックの entry.json を使って初期表示
   setTimeout(() => {
-    if (!(window.pagefind && typeof window.pagefind.search === 'function')) {
+    if (!(window.pagefind && typeof window.pagefind.search === 'function') && !window.__pagefind_initialized) {
       console.log('pagefind.search not available, using fallback entry.json');
       runSearch('');
     }
