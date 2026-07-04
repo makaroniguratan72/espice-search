@@ -1,119 +1,188 @@
-/* style.css - 最低限のレイアウトと Pagefind と共存するスタイル */
+/* ===============================
+   ESPICE SEARCH — Wiki寄せデザイン
+   =============================== */
 
-:root{
-  --bg:#fff;
-  --text:#222;
-  --accent:#0b84ff;
-  --muted:#666;
-  --card:#fafafa;
+/* 全体 */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.7;
+  background: #ffffff;
+  margin: 0;
+  padding: 0;
 }
 
-*{box-sizing:border-box}
-body{
-  font-family: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  margin:0;
-  color:var(--text);
-  background:var(--bg);
-  line-height:1.5;
+/* ヘッダー */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: rgba(34,34,34,0.88);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
 }
 
-.site-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 18px;
-  background:linear-gradient(90deg,#fff,#f7f9fc);
-  border-bottom:1px solid #eee;
+.header-left {
+  font-size: 120%;
+  font-weight: bold;
 }
 
-.header-left{font-weight:700}
-.wiki-link{color:var(--accent); text-decoration:none}
-
-.header-line{margin:0;border:0;border-top:1px solid #eee}
-
-main{max-width:980px;margin:20px auto;padding:0 16px}
-
-.search-area{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  margin-bottom:18px;
+.header-right a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.10);
+  transition: 0.2s;
 }
 
-#searchInput{
-  padding:12px 14px;
-  font-size:16px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  width:100%;
+.header-right a:hover {
+  color: #4dc3ff;
+  background: rgba(255,255,255,0.18);
 }
 
-.member-select{display:flex;gap:12px;flex-wrap:wrap}
-.member-select label{font-size:14px;color:var(--muted)}
-
-.sort-tabs{display:flex;gap:8px}
-.tab{
-  padding:8px 12px;
-  border-radius:8px;
-  border:1px solid #ddd;
-  background:#fff;
-  cursor:pointer;
+/* 区切り線 */
+.header-line {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  margin: 0;
 }
-.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-.results{display:block;margin-top:8px}
-
-/* result item */
-.result-item{
-  background:var(--card);
-  border:1px solid #eee;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:12px;
+/* 検索エリア */
+.search-area {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
 }
-.result-title{margin:0 0 6px 0;font-size:18px}
-.result-title a{color:var(--accent);text-decoration:none}
-.result-meta{font-size:13px;color:var(--muted);display:flex;gap:12px;margin-bottom:8px}
-.result-excerpt{margin:0;color:#444}
 
-/* no results */
-.no-results{padding:18px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #eee;border-radius:8px}
-
-/* -------------------------
-   フォールバック用 Pagefind 互換スタイル
-   ------------------------- */
-.pf-results{display:block}
-.pf-result{background:#fff;border:1px solid #eee;padding:12px;border-radius:8px;margin-bottom:12px}
-.pf-result__title a{color:#0b84ff;text-decoration:none}
-.pf-result__meta{font-size:13px;color:#666;display:flex;gap:12px;margin-bottom:8px}
-.pf-no-results{padding:18px;text-align:center;color:#666;background:#fff;border:1px dashed #eee;border-radius:8px}
-
-/* Wiki 互換パッチ（優先度高め） */
-.wiki-results { display:block; }
-.wiki-result {
-  background: #fff;
-  border-left: 4px solid #0b84ff;
+#searchInput {
+  width: 100%;
   padding: 12px 14px;
-  margin-bottom: 10px;
-  border-radius: 6px;
+  font-size: 105%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
 }
-.wiki-title { margin:0 0 6px 0; font-size:18px; font-weight:600; }
-.wiki-title a { color:#0b84ff; text-decoration:none; }
-.wiki-meta { font-size:13px; color:#666; display:flex; gap:12px; margin-bottom:8px; align-items:center; }
-.wiki-excerpt { margin:0; color:#444; }
-.wiki-no-results { padding:16px; text-align:center; color:#666; background:#fff; border:1px dashed #eee; border-radius:6px; }
 
-/* 即効パッチ：フォールバック結果を整える */
-#searchResults { margin-top: 12px; }
-#searchResults .pf-results { display:block; gap:12px; }
-#searchResults .pf-result, #searchResults .result-item, #searchResults article {
-  background:#fff;
-  border:1px solid #eee;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:12px;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+/* メンバー選択 */
+.member-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
 }
-#searchResults .pf-result__title a, #searchResults .result-title a { color:#0b84ff; text-decoration:none; }
-#searchResults .pf-result__meta, #searchResults .result-meta { font-size:13px; color:#666; display:flex; gap:12px; margin-bottom:8px; }
-#searchResults .pf-result__excerpt, #searchResults .result-excerpt { color:#444; margin:0; }
+
+.member-select label {
+  background: #f7f7f7;
+  padding: 6px 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.member-select label:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+/* ソートタブ */
+.sort-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(77,195,255,0.08);
+  color: #333;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tab:hover {
+  background: rgba(77,195,255,0.14);
+}
+
+.tab.active {
+  background: rgba(77,195,255,0.20);
+  color: #1aa7ff;
+  font-weight: bold;
+}
+
+/* 結果エリア */
+.results {
+  max-width: 900px;
+  margin: 20px auto 60px;
+}
+
+/* 結果カード */
+.result-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+.result-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* タイトルリンク（Wiki風） */
+.result-card h3 a {
+  color: #4dc3ff;
+  text-decoration: none;
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.result-card h3 a:hover {
+  color: #1aa7ff;
+}
+
+/* メタ情報 */
+.meta {
+  margin-top: 6px;
+  font-size: 90%;
+  color: #555;
+}
+
+.meta span {
+  margin-right: 12px;
+}
+
+/* 説明文 */
+.result-card p {
+  margin-top: 10px;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* No results */
+.no-results {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+  font-size: 110%;
+}
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+  .member-select {
+    flex-direction: column;
+  }
+
+  .tab {
+    flex: 1;
+    text-align: center;
+  }
+}
