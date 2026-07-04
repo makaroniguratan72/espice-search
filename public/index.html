@@ -18,7 +18,53 @@
   <script src="/pagefind/pagefind.js"></script>
 
   <!-- Pagefind をモジュールとして読み込んで初期化（import.meta 対応） -->
-  <script type="module" src="/pagefind/pagefind.js"></script>
+  <script type="module">
+  (async () => {
+    try {
+      // 1) ESM 版の core を import（存在すれば読み込む）
+      let core = null;
+      try {
+        core = await import('/pagefind/pagefind.js');
+      } catch(e) {
+        console.warn('pagefind core import failed or not ESM:', e);
+      }
+
+      // 2) ESM 版 UI を import
+      let uiMod = null;
+      try {
+        uiMod = await import('/pagefind/pagefind-ui.js');
+      } catch(e) {
+        console.warn('pagefind-ui import failed:', e);
+      }
+
+      // 3) window.pagefind を作る（core のエクスポートを優先）
+      if (core) {
+        const maybe = core.default || core.pagefind || core;
+        // core がオブジェクトで search を持つならそれを window.pagefind にする
+        if (maybe && typeof maybe === 'object') {
+          window.pagefind = maybe;
+        }
+      }
+
+      // 4) UI の初期化（UI が Pagefind を内部で参照する場合に備える）
+      const PagefindUI = uiMod ? (uiMod.default || uiMod.PagefindUI || window.PagefindUI) : window.PagefindUI;
+      if (PagefindUI) {
+        if (typeof PagefindUI === 'function') {
+          const inst = new PagefindUI({ element: '#searchResults', showSubResults: true, basePath: '/pagefind/' });
+          if (inst && typeof inst.then === 'function') await inst;
+        } else if (PagefindUI && typeof PagefindUI.init === 'function') {
+          await PagefindUI.init({ element: '#searchResults', showSubResults: true, basePath: '/pagefind/' });
+        }
+      }
+
+      // 5) 最終チェックログ
+      console.log('pagefind after init typeof search:', typeof (window.pagefind && window.pagefind.search));
+    } catch (err) {
+      console.error('Pagefind combined init failed:', err);
+    }
+  })();
+</script>
+
     (async () => {
       try {
         // まず UMD でグローバルに pagefind が提供されているか確認
