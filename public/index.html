@@ -18,30 +18,43 @@
   <!-- ★ Pagefind UI（必須） -->
   <script src="/pagefind/pagefind-ui.js"></script>
 
-  <!-- Pagefind UI 初期化（シンプルで安定） -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    <!-- Pagefind をモジュールとして読み込んで初期化（import.meta 対応） -->
+  <script type="module">
+    (async () => {
       try {
-        const ui = new PagefindUI({
-          element: "#searchResults",
-          showSubResults: true
-        });
+        // pagefind-ui.js をモジュールとして import（ESM 版を想定）
+        const mod = await import('/pagefind/pagefind-ui.js');
+        const PagefindUI = mod.default || mod.PagefindUI || window.PagefindUI;
 
-        // PagefindUI が内部で pagefind インスタンスを作る
-        if (ui && typeof ui.then === "function") {
-          ui.then(inst => {
-            window.pagefind = inst;
-            console.log("Pagefind initialized (async)");
-          });
-        } else {
-          window.pagefind = ui;
-          console.log("Pagefind initialized");
+        if (!PagefindUI) {
+          console.warn('PagefindUI module export not found; falling back to global if present.');
         }
-      } catch (e) {
-        console.error("Error initializing PagefindUI:", e);
+
+        let uiInstance = null;
+        if (typeof PagefindUI === 'function') {
+          uiInstance = new PagefindUI({ element: '#searchResults', showSubResults: true, basePath: '/pagefind/' });
+          if (uiInstance && typeof uiInstance.then === 'function') {
+            uiInstance = await uiInstance;
+          }
+        } else if (PagefindUI && typeof PagefindUI.init === 'function') {
+          uiInstance = await PagefindUI.init({ element: '#searchResults', showSubResults: true, basePath: '/pagefind/' });
+        } else {
+          uiInstance = window.pagefind || null;
+        }
+
+        if (uiInstance) {
+          window.pagefind = uiInstance;
+          console.log('Pagefind initialized (module)');
+        } else {
+          console.warn('Pagefind initialization returned no instance.');
+        }
+      } catch (err) {
+        console.error('Pagefind module init failed:', err);
       }
-    });
+    })();
   </script>
+
+
 </head>
 
 <body>
