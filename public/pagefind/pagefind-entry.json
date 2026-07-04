@@ -7,14 +7,14 @@
       "ゾマ",
       "とぅーし",
       "凪",
-      "KOUSUKE"
+      "KOSUKE"
     ],
     "youtubeId": "y7evMEEYJf4",
     "url": "https://www.youtube.com/watch?v=y7evMEEYJf4",
     "views": 123456,
     "date": "2026-04-14",
-    "description": "『UPRISING』Offiicial Dance Music Video【RAB ESPICE feat. らっぷびと & アリレム】",
-    "thumbnail": "https://www.youtube.com/watch?v=y7evMEEYJf4/maxresdefault.jpg"
+    "description": "『UPRISING』Official Dance Music Video【RAB ESPICE feat. らっぷびと & アリレム】",
+    "thumbnail": "https://i.ytimg.com/vi/y7evMEEYJf4/maxresdefault.jpg"
   },
   {
     "id": 2,
@@ -24,13 +24,41 @@
       "ゾマ",
       "とぅーし",
       "凪",
-      "KOUSUKE"
+      "KOSUKE"
     ],
     "youtubeId": "X-F6QXqMXCc",
     "url": "https://www.youtube.com/watch?v=X-F6QXqMXCc",
     "views": 98765,
     "date": "2026-06-13",
-    "description": "プロが セブンスシスターズ 「SEVENTH HAVEN」踊ってみた【ESPICE】",
-    "thumbnail": "https://www.youtube.com/watch?v=X-F6QXqMXCc/maxresdefault.jpg"
+    "description": "プロが セブンスシスターズ 「SEVENTH HAVEN」踊ってみた",
+    "thumbnail": "https://i.ytimg.com/vi/X-F6QXqMXCc/maxresdefault.jpg"
+  },
+  {
+    "id": 3,
+    "title": "OBF 【ジョー・力一】",
+    "members": [
+      "ネス",
+      "ゾマ",
+      "とぅーし",
+      "r6EBWu5BR7o",
+      "https://www.youtube.com/watch?v=r6EBWu5BR7o",
+      "17354",
+      "2026-07-03",
+      "\"プロがOBF 踊ってみた【ジョー・力一】\"\r\n3",
+      "ワールドイズマイン CPK! Remix ",
+      "\"凪",
+      "KOSUKE",
+      "VNL5QJkruHo",
+      "https://www.youtube.com/watch?v=VNL5QJkruHo",
+      "6232",
+      "2026-06-28",
+      "\"【超かぐや姫!】ワールドイズマイン CPK! Remix 踊ってみた!【凪KOSUKE】"
+    ],
+    "youtubeId": "",
+    "url": "",
+    "views": 0,
+    "date": "",
+    "description": "",
+    "thumbnail": ""
   }
 ]
