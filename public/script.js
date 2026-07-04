@@ -1,5 +1,5 @@
 // ===============================
-// ESPICE SEARCH - fallback専用 完全版（サムネ対応）
+// ESPICE SEARCH - fallback専用 完全版（サムネ対応 + ひらがな検索）
 // ===============================
 
 // HTMLエスケープ
@@ -33,7 +33,14 @@ function normalizeEntries(entries){
   });
 }
 
-// AND 絞り込み
+// ひらがな → カタカナ変換
+function hiraToKana(str) {
+  return str.replace(/[\u3041-\u3096]/g, ch =>
+    String.fromCharCode(ch.charCodeAt(0) + 0x60)
+  );
+}
+
+// AND 絞り込み（メンバー）
 function filterByMembers(entries, selectedMembers){
   if(selectedMembers.length === 0) return entries;
   return entries.filter(e => {
@@ -41,14 +48,18 @@ function filterByMembers(entries, selectedMembers){
   });
 }
 
-// 全文検索
+// 全文検索（ひらがな部分一致対応）
 function fallbackSearch(entries, query){
   if(!query) return entries;
-  const q = query.trim().toLowerCase();
+
+  // 入力をひらがな→カタカナへ変換
+  const q = hiraToKana(query.trim().toLowerCase());
+
   return entries.filter(e => {
-    const title = e.title.toLowerCase();
-    const desc  = e.description.toLowerCase();
-    const mem   = e.members.join(' ').toLowerCase();
+    const title = hiraToKana(e.title.toLowerCase());
+    const desc  = hiraToKana(e.description.toLowerCase());
+    const mem   = hiraToKana(e.members.join(' ').toLowerCase());
+
     return title.includes(q) || desc.includes(q) || mem.includes(q);
   });
 }
@@ -86,7 +97,6 @@ function renderResults(items){
 
         <div class="meta">
           <span>出演：${escapeHtml(item.members.join(', '))}</span>
-          <!-- 再生数は非表示 -->
           <span style="display:none;">再生数：${item.views}</span>
           <span>投稿日：${escapeHtml(item.date)}</span>
         </div>
