@@ -18,7 +18,7 @@
   <!-- ★ Pagefind UI（必須） -->
   <script src="/pagefind/pagefind-ui.js"></script>
 
-  <!-- Pagefind UI 初期化 -->
+  <!-- Pagefind UI 初期化（シンプルで安定） -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       try {
@@ -27,7 +27,7 @@
           showSubResults: true
         });
 
-        // PagefindUI が内部で pagefind インスタンスを作るので、それを拾う
+        // PagefindUI が内部で pagefind インスタンスを作る
         if (ui && typeof ui.then === "function") {
           ui.then(inst => {
             window.pagefind = inst;
