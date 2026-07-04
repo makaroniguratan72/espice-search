@@ -1,6 +1,6 @@
 // ===============================
 // ESPICE SEARCH - fallback専用 完全版
-// （サムネ対応 + ひらがな検索 + ローマ字検索）
+// （サムネ対応 + ひらがな→カタカナ→ローマ字検索 + メンバーAND絞り込み）
 // ===============================
 
 // HTMLエスケープ
@@ -68,15 +68,19 @@ function kanaToRomaji(str) {
     りゃ:"rya",りゅ:"ryu",りょ:"ryo"
   };
 
-  return str.replace(/(きゃ|きゅ|きょ|しゃ|しゅ|しょ|ちゃ|ちゅ|ちょ|にゃ|にゅ|にょ|ひゃ|ひゅ|ひょ|みゃ|みゅ|みょ|りゃ|りゅ|りょ|[ぁ-ん])/g, m => map[m] || m);
+  return str.replace(
+    /(きゃ|きゅ|きょ|しゃ|しゅ|しょ|ちゃ|ちゅ|ちょ|にゃ|にゅ|にょ|ひゃ|ひゅ|ひょ|みゃ|みゅ|みょ|りゃ|りゅ|りょ|[ぁ-ん])/g,
+    m => map[m] || m
+  );
 }
 
-// AND 絞り込み（メンバー）
+// メンバー絞り込み（AND：全員出演している作品だけ）
 function filterByMembers(entries, selectedMembers){
   if(selectedMembers.length === 0) return entries;
-  return entries.filter(e => {
-    return selectedMembers.every(m => e.members.includes(m));
-  });
+
+  return entries.filter(e =>
+    selectedMembers.every(m => e.members.includes(m))
+  );
 }
 
 // 全文検索（ひらがな → カタカナ → ローマ字対応）
@@ -95,10 +99,8 @@ function fallbackSearch(entries, query){
     return (
       // ひらがな
       title.includes(hira) || desc.includes(hira) || mem.includes(hira) ||
-
       // カタカナ
       title.includes(kana) || desc.includes(kana) || mem.includes(kana) ||
-
       // ローマ字
       title.includes(roma) || desc.includes(roma) || mem.includes(roma)
     );
@@ -116,7 +118,7 @@ function sortEntries(entries, mode){
   return entries;
 }
 
-// 描画（★サムネ対応）
+// 描画（★サムネ対応＋サムネクリックでYouTubeへ）
 function renderResults(items){
   const container = document.getElementById('searchResults');
   container.innerHTML = '';
@@ -131,7 +133,9 @@ function renderResults(items){
     card.className = 'result-card';
 
     card.innerHTML = `
-      <img src="${item.thumbnail}" class="result-thumb">
+      <a href="${item.url}" target="_blank">
+        <img src="${item.thumbnail}" class="result-thumb">
+      </a>
 
       <div class="result-body">
         <h3><a href="${item.url}" target="_blank">${escapeHtml(item.title)}</a></h3>
@@ -154,7 +158,7 @@ function renderResults(items){
 async function runSearch(){
   const query = document.getElementById('searchInput').value || '';
 
-  // メンバー選択
+  // メンバー選択（チェックされたメンバー）
   const selectedMembers = [...document.querySelectorAll('.member-select input:checked')]
     .map(cb => cb.value);
 
@@ -168,7 +172,7 @@ async function runSearch(){
 
   // 絞り込み
   entries = fallbackSearch(entries, query);
-  entries = filterByMembers(entries, selectedMembers);
+  entries = filterByMembers(entries, selectedMembers); // AND検索
   entries = sortEntries(entries, mode);
 
   renderResults(entries);
