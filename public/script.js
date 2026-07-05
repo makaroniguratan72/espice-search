@@ -73,14 +73,28 @@ function kanaToRomaji(str) {
     m => map[m] || m
   );
 }
-
-// メンバー絞り込み（AND：全員出演している作品だけ）
+// メンバー絞り込み（AND / STRICT 切り替え）
 function filterByMembers(entries, selectedMembers){
   if(selectedMembers.length === 0) return entries;
 
-  return entries.filter(e =>
-    selectedMembers.every(m => e.members.includes(m))
-  );
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+
+  return entries.filter(e => {
+
+    // AND：選んだ全員が出演していればOK（他メンバーいてもOK）
+    if(mode === "AND"){
+      return selectedMembers.every(m => e.members.includes(m));
+    }
+
+    // STRICT：選んだメンバーだけ出演（他メンバーがいたら除外）
+    if(mode === "STRICT"){
+      return (
+        selectedMembers.every(m => e.members.includes(m)) &&
+        e.members.length === selectedMembers.length
+      );
+    }
+
+  });
 }
 
 // 全文検索（ひらがな → カタカナ → ローマ字対応）

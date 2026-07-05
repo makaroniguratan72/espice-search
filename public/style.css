@@ -274,3 +274,39 @@ body {
     font-size: 110%;
   }
 }
+.sort-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  overflow-x: auto;              /* ← スマホで横並び維持 */
+  -webkit-overflow-scrolling: touch;
+  flex-wrap: nowrap;             /* ← 折り返し禁止 */
+}
+.mode-switch {
+  padding: 8px 14px;             /* ← 少し小さく */
+  background: rgba(77,195,255,0.08);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 90%;                /* ← 文字も少し小さく */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;           /* ← 改行しない */
+  transition: 0.2s;
+}
+
+.mode-switch:hover {
+  transform: scale(1.05);
+  background: rgba(77,195,255,0.14);
+}
+
+.mode-switch input {
+  width: 16px;
+  height: 16px;
+}
+@media (max-width: 600px) {
+  .mode-switch {
+    padding: 10px 16px;
+    font-size: 95%;
+  }
+}
