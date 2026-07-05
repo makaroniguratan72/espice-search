@@ -352,3 +352,22 @@ body {
     font-size: 95%;
   }
 }
+/* AND / ONLY をシンプルなテキストにする */
+.mode-switch {
+  border: none;          /* 枠を消す */
+  background: none;      /* 背景を消す */
+  padding: 4px 6px;      /* 最小限の余白だけ */
+  font-size: 90%;        /* 少し控えめにして差をつける */
+  cursor: pointer;
+  color: #666;           /* 新着順・人気順より少し薄い色で差別化 */
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mode-switch input {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+}
