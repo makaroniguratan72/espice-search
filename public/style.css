@@ -260,3 +260,17 @@ body {
 .member-select {
   margin-bottom: 18px;
 }
+/* ソートタブを押しやすく大きくする */
+.tab {
+  padding: 12px 20px;     /* ← ボタンの高さ＆横幅アップ */
+  font-size: 105%;        /* ← 文字少し大きく */
+  border-radius: 24px;    /* ← 角丸を少し大きくして押しやすい形に */
+}
+
+/* スマホはさらに押しやすく */
+@media (max-width: 600px) {
+  .tab {
+    padding: 14px 22px;   /* ← スマホは指で押すのでさらに広め */
+    font-size: 110%;
+  }
+}
