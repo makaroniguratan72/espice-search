@@ -86,8 +86,8 @@ function filterByMembers(entries, selectedMembers){
       return selectedMembers.every(m => e.members.includes(m));
     }
 
-    // STRICT：選んだメンバーだけ出演（他メンバーがいたら除外）
-    if(mode === "STRICT"){
+    // ONLY：選んだ人数だけ（兄ぴす含む）
+    if(mode === "STRICT_AUTO"){
       return (
         selectedMembers.every(m => e.members.includes(m)) &&
         e.members.length === selectedMembers.length
@@ -96,6 +96,7 @@ function filterByMembers(entries, selectedMembers){
 
   });
 }
+
 
 // 全文検索（ひらがな → カタカナ → ローマ字対応）
 function fallbackSearch(entries, query){
