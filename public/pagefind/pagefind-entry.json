@@ -43,7 +43,7 @@
     ],
     "youtubeId": "r6EBWu5BR7o",
     "url": "https://www.youtube.com/watch?v=r6EBWu5BR7o",
-    "views": 40338,
+    "views": 40533,
     "date": "2026-07-03",
     "description": "プロがOBF 踊ってみた【ジョー・力一】",
     "thumbnail": "https://i.ytimg.com/vi/r6EBWu5BR7o/hqdefault.jpg"
@@ -57,7 +57,7 @@
     ],
     "youtubeId": "VNL5QJkruHo",
     "url": "https://www.youtube.com/watch?v=VNL5QJkruHo",
-    "views": 6723,
+    "views": 6730,
     "date": "2026-06-28",
     "description": "【超かぐや姫!】ワールドイズマイン CPK! Remix 踊ってみた!【凪KOSUKE】",
     "thumbnail": "https://i.ytimg.com/vi/VNL5QJkruHo/hqdefault.jpg"
@@ -267,7 +267,7 @@
     ],
     "youtubeId": "eq0XgcsJasE",
     "url": "https://www.youtube.com/watch?v=eq0XgcsJasE&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=14",
-    "views": 561255,
+    "views": 561254,
     "date": "2021-06-16",
     "description": "ヴァンパイアになって踊ってみた 【RAB ESPICE】",
     "thumbnail": "https://i.ytimg.com/vi/eq0XgcsJasE/hqdefault.jpg"
@@ -460,5 +460,68 @@
     "date": "2021-12-17",
     "description": "オタクがときめきブローカー踊ったら修羅場すぎた件についてｗｗｗｗｗｗｗｗｗｗｗｗｗｗ",
     "thumbnail": "https://i.ytimg.com/vi/Rf5taUdJuKw/hqdefault.jpg"
+  },
+  {
+    "id": 1783220394520,
+    "title": "シル・ヴ・プレジデント",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!"
+    ],
+    "youtubeId": "4kxf_Fxl-VQ",
+    "url": "https://www.youtube.com/watch?v=4kxf_Fxl-VQ&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=29",
+    "views": 321570,
+    "date": "2021-04-30",
+    "description": "【踊ってみた！？】シル・ヴ・プレジデント【ゾマネス】",
+    "thumbnail": "https://i.ytimg.com/vi/4kxf_Fxl-VQ/hqdefault.jpg"
+  },
+  {
+    "id": 1783220530920,
+    "title": "心予報",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし"
+    ],
+    "youtubeId": "-c-oCi2fqPk",
+    "url": "https://www.youtube.com/watch?v=-c-oCi2fqPk&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=30",
+    "views": 294707,
+    "date": "2021-02-26",
+    "description": "精一杯背伸びして『心予報』踊ってみた結果",
+    "thumbnail": "https://i.ytimg.com/vi/-c-oCi2fqPk/hqdefault.jpg"
+  },
+  {
+    "id": 1783220722135,
+    "title": "UNDEAD",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし",
+      "凪",
+      "KOSUKE"
+    ],
+    "youtubeId": "_vEi554yW8o",
+    "url": "https://www.youtube.com/watch?v=_vEi554yW8o&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=154",
+    "views": 41308,
+    "date": "2026-03-27",
+    "description": "UNDEAD 踊ってみた　【RAB ESPICE】",
+    "thumbnail": "https://i.ytimg.com/vi/_vEi554yW8o/hqdefault.jpg"
+  },
+  {
+    "id": 1783220979694,
+    "title": "オトノナルホウヘ→",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし",
+      "凪",
+      "KOSUKE"
+    ],
+    "youtubeId": "S_LRkqkSoNs",
+    "url": "https://www.youtube.com/watch?v=S_LRkqkSoNs&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=153",
+    "views": 23749,
+    "date": "2026-03-15",
+    "description": "オトノナルホウヘ→ 踊ってみた 【RAB ESPICE】",
+    "thumbnail": "https://i.ytimg.com/vi/S_LRkqkSoNs/hqdefault.jpg"
   }
 ]
