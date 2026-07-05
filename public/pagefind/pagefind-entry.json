@@ -43,7 +43,7 @@
     ],
     "youtubeId": "r6EBWu5BR7o",
     "url": "https://www.youtube.com/watch?v=r6EBWu5BR7o",
-    "views": 40109,
+    "views": 40338,
     "date": "2026-07-03",
     "description": "プロがOBF 踊ってみた【ジョー・力一】",
     "thumbnail": "https://i.ytimg.com/vi/r6EBWu5BR7o/hqdefault.jpg"
@@ -57,7 +57,7 @@
     ],
     "youtubeId": "VNL5QJkruHo",
     "url": "https://www.youtube.com/watch?v=VNL5QJkruHo",
-    "views": 6712,
+    "views": 6723,
     "date": "2026-06-28",
     "description": "【超かぐや姫!】ワールドイズマイン CPK! Remix 踊ってみた!【凪KOSUKE】",
     "thumbnail": "https://i.ytimg.com/vi/VNL5QJkruHo/hqdefault.jpg"
@@ -132,7 +132,7 @@
     ],
     "youtubeId": "l-yuQJT7GQg",
     "url": "https://www.youtube.com/watch?v=l-yuQJT7GQg&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=4",
-    "views": 463100,
+    "views": 463102,
     "date": "2022-11-04",
     "description": "【とぅーし】Overdose/なとり【踊ってみた】",
     "thumbnail": "https://i.ytimg.com/vi/l-yuQJT7GQg/hqdefault.jpg"
@@ -252,7 +252,7 @@
     ],
     "youtubeId": "n3pnL97yVYo",
     "url": "https://www.youtube.com/watch?v=n3pnL97yVYo&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=13",
-    "views": 480629,
+    "views": 480633,
     "date": "2020-03-18",
     "description": "Los！Los！ Los！ 踊ってみた【リアルアキバボーイズ】The Saga of Tanya the Evil Opening Dance",
     "thumbnail": "https://i.ytimg.com/vi/n3pnL97yVYo/hqdefault.jpg"
@@ -267,7 +267,7 @@
     ],
     "youtubeId": "eq0XgcsJasE",
     "url": "https://www.youtube.com/watch?v=eq0XgcsJasE&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=14",
-    "views": 561254,
+    "views": 561255,
     "date": "2021-06-16",
     "description": "ヴァンパイアになって踊ってみた 【RAB ESPICE】",
     "thumbnail": "https://i.ytimg.com/vi/eq0XgcsJasE/hqdefault.jpg"
@@ -419,5 +419,46 @@
     "date": "2020-01-02",
     "description": "あの名曲をオタクがお洒落してMV撮ったら最高すぎた【リアルアキバボーイズ】",
     "thumbnail": "https://i.ytimg.com/vi/4XkzrFRIha8/hqdefault.jpg"
+  },
+  {
+    "id": 1783219577032,
+    "title": "flos",
+    "members": [
+      "ネス"
+    ],
+    "youtubeId": "JyBigvekE-k",
+    "url": "https://www.youtube.com/watch?v=JyBigvekE-k&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=26",
+    "views": 355137,
+    "date": "2020-10-23",
+    "description": "flos 踊ってみた【ネス",
+    "thumbnail": "https://i.ytimg.com/vi/JyBigvekE-k/hqdefault.jpg"
+  },
+  {
+    "id": 1783220048280,
+    "title": "失礼しますが、RIP♡",
+    "members": [
+      "ネス",
+      "とぅーし"
+    ],
+    "youtubeId": "TpY02_R838Y",
+    "url": "https://www.youtube.com/watch?v=TpY02_R838Y&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=27",
+    "views": 327887,
+    "date": "2020-10-24",
+    "description": "失礼しますが、RIP♡踊ってみた/ Excuse My Rudeness, But Could You Please RIP?",
+    "thumbnail": "https://i.ytimg.com/vi/TpY02_R838Y/hqdefault.jpg"
+  },
+  {
+    "id": 1783220131816,
+    "title": "ときめきブローカー",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!"
+    ],
+    "youtubeId": "Rf5taUdJuKw",
+    "url": "https://www.youtube.com/watch?v=Rf5taUdJuKw&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=28",
+    "views": 435539,
+    "date": "2021-12-17",
+    "description": "オタクがときめきブローカー踊ったら修羅場すぎた件についてｗｗｗｗｗｗｗｗｗｗｗｗｗｗ",
+    "thumbnail": "https://i.ytimg.com/vi/Rf5taUdJuKw/hqdefault.jpg"
   }
 ]
