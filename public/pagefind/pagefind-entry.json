@@ -28,7 +28,7 @@
     ],
     "youtubeId": "X-F6QXqMXCc",
     "url": "https://www.youtube.com/watch?v=X-F6QXqMXCc",
-    "views": 7465,
+    "views": 7468,
     "date": "2026-06-13",
     "description": "プロが セブンスシスターズ 「SEVENTH HAVEN」踊ってみた",
     "thumbnail": "https://i.ytimg.com/vi/X-F6QXqMXCc/hqdefault.jpg"
@@ -43,7 +43,7 @@
     ],
     "youtubeId": "r6EBWu5BR7o",
     "url": "https://www.youtube.com/watch?v=r6EBWu5BR7o",
-    "views": 39298,
+    "views": 39430,
     "date": "2026-07-03",
     "description": "プロがOBF 踊ってみた【ジョー・力一】",
     "thumbnail": "https://i.ytimg.com/vi/r6EBWu5BR7o/hqdefault.jpg"
@@ -173,7 +173,7 @@
     ],
     "youtubeId": "yubSsmj-scE",
     "url": "https://www.youtube.com/watch?v=yubSsmj-scE&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=7",
-    "views": 856468,
+    "views": 856469,
     "date": "2021-03-21",
     "description": "【まさとめーとるネス】グッバイ宣言　踊ってみた【オリジナル振り付け】",
     "thumbnail": "https://i.ytimg.com/vi/yubSsmj-scE/hqdefault.jpg"
@@ -350,5 +350,33 @@
     "date": "2021-09-24",
     "description": "オタクがBad Apple!!雑コスして踊ってみたったwwwww",
     "thumbnail": "https://i.ytimg.com/vi/qsboFwReL34/hqdefault.jpg"
+  },
+  {
+    "id": 1783216636700,
+    "title": "スキスキ星人／すとぷり",
+    "members": [
+      "ゾマやかじゃない!"
+    ],
+    "youtubeId": "4NlnuxY2Tk4",
+    "url": "https://www.youtube.com/watch?v=4NlnuxY2Tk4&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=21",
+    "views": 389123,
+    "date": "2020-12-22",
+    "description": "スキスキ星人／すとぷり　踊ってみた 【制服コスプレ】",
+    "thumbnail": "https://i.ytimg.com/vi/4NlnuxY2Tk4/hqdefault.jpg"
+  },
+  {
+    "id": 1783216738995,
+    "title": "The Biggest Dreamer",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし"
+    ],
+    "youtubeId": "zDdI7PW_VY0",
+    "url": "https://www.youtube.com/watch?v=zDdI7PW_VY0&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=22",
+    "views": 102084,
+    "date": "2021-11-28",
+    "description": "The Biggest Dreamer 踊ってみた【デジモンテイマーズ】",
+    "thumbnail": "https://i.ytimg.com/vi/zDdI7PW_VY0/hqdefault.jpg"
   }
 ]
