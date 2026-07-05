@@ -1,1 +1,382 @@
-{"version":"1.5.2","languages":{"ja":{"hash":"ja_7ccc8d739b","wasm":null,"page_count":3}},"include_characters":["_","‿","⁀","⁔","︳","︴","﹍","﹎","﹏","＿"]}
+[
+  {
+    "id": 1,
+    "title": "UPRISING",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし",
+      "凪",
+      "KOSUKE"
+    ],
+    "youtubeId": "y7evMEEYJf4",
+    "url": "https://www.youtube.com/watch?v=y7evMEEYJf4",
+    "views": 10645,
+    "date": "2026-04-14",
+    "description": "『UPRISING』Official Dance Music Video【RAB ESPICE feat. らっぷびと & アリレム】",
+    "thumbnail": "https://i.ytimg.com/vi/y7evMEEYJf4/hqdefault.jpg"
+  },
+  {
+    "id": 2,
+    "title": "SEVENTH HAVEN",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし",
+      "凪",
+      "KOSUKE"
+    ],
+    "youtubeId": "X-F6QXqMXCc",
+    "url": "https://www.youtube.com/watch?v=X-F6QXqMXCc",
+    "views": 7468,
+    "date": "2026-06-13",
+    "description": "プロが セブンスシスターズ 「SEVENTH HAVEN」踊ってみた",
+    "thumbnail": "https://i.ytimg.com/vi/X-F6QXqMXCc/hqdefault.jpg"
+  },
+  {
+    "id": 3,
+    "title": "OBF 【ジョー・力一】",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし"
+    ],
+    "youtubeId": "r6EBWu5BR7o",
+    "url": "https://www.youtube.com/watch?v=r6EBWu5BR7o",
+    "views": 39430,
+    "date": "2026-07-03",
+    "description": "プロがOBF 踊ってみた【ジョー・力一】",
+    "thumbnail": "https://i.ytimg.com/vi/r6EBWu5BR7o/hqdefault.jpg"
+  },
+  {
+    "id": 4,
+    "title": "ワールドイズマイン CPK! Remix",
+    "members": [
+      "凪",
+      "KOSUKE"
+    ],
+    "youtubeId": "VNL5QJkruHo",
+    "url": "https://www.youtube.com/watch?v=VNL5QJkruHo",
+    "views": 6689,
+    "date": "2026-06-28",
+    "description": "【超かぐや姫!】ワールドイズマイン CPK! Remix 踊ってみた!【凪KOSUKE】",
+    "thumbnail": "https://i.ytimg.com/vi/VNL5QJkruHo/hqdefault.jpg"
+  },
+  {
+    "id": 5,
+    "title": "【ESPICE×GANMI】テクノブレイク",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし",
+      "凪",
+      "KOSUKE"
+    ],
+    "youtubeId": "ztEXwSA9tgU",
+    "url": "https://www.youtube.com/watch?v=ztEXwSA9tgU",
+    "views": 21021,
+    "date": "2026-04-15",
+    "description": "【ESPICE×GANMI】テクノブレイク 踊ってみた",
+    "thumbnail": "https://i.ytimg.com/vi/ztEXwSA9tgU/hqdefault.jpg"
+  },
+  {
+    "id": 1783166896478,
+    "title": "HEAVEN’S RAVE",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし"
+    ],
+    "youtubeId": "ASbnOsBeW2k",
+    "url": "https://www.youtube.com/watch?v=ASbnOsBeW2k&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=1",
+    "views": 312775,
+    "date": "2019-12-06",
+    "description": "【HEAVEN’S RAVE】オタクの本気。新メンバー3人で踊ってみた【RAB】",
+    "thumbnail": "https://i.ytimg.com/vi/ASbnOsBeW2k/hqdefault.jpg"
+  },
+  {
+    "id": 1783175527532,
+    "title": "アドベンチャー",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし"
+    ],
+    "youtubeId": "zv88QiY8q0I",
+    "url": "https://www.youtube.com/watch?v=zv88QiY8q0I&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=2",
+    "views": 293098,
+    "date": "2023-07-14",
+    "description": "YOASOBI「アドベンチャー」を踊ってみた",
+    "thumbnail": "https://i.ytimg.com/vi/zv88QiY8q0I/hqdefault.jpg"
+  },
+  {
+    "id": 1783211633131,
+    "title": "ミックスナッツ",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし"
+    ],
+    "youtubeId": "uunO-BRCwfI",
+    "url": "https://www.youtube.com/watch?v=uunO-BRCwfI&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=3",
+    "views": 696441,
+    "date": "2022-05-13",
+    "description": "オタク男子がSPY×FAMILYのコスプレして踊ってみた",
+    "thumbnail": "https://i.ytimg.com/vi/uunO-BRCwfI/hqdefault.jpg"
+  },
+  {
+    "id": 1783212791578,
+    "title": "Overdose/なとり",
+    "members": [
+      "とぅーし"
+    ],
+    "youtubeId": "l-yuQJT7GQg",
+    "url": "https://www.youtube.com/watch?v=l-yuQJT7GQg&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=4",
+    "views": 463094,
+    "date": "2022-11-04",
+    "description": "【とぅーし】Overdose/なとり【踊ってみた】",
+    "thumbnail": "https://i.ytimg.com/vi/l-yuQJT7GQg/hqdefault.jpg"
+  },
+  {
+    "id": 1783212998577,
+    "title": "ゴーストダイブ",
+    "members": [
+      "ゾマやかじゃない!"
+    ],
+    "youtubeId": "mDwNNCKhd1Y",
+    "url": "https://www.youtube.com/watch?v=mDwNNCKhd1Y&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=5",
+    "views": 131249,
+    "date": "2024-01-12",
+    "description": "ゴーストダイブ 踊ってみた【ゾマやかじゃない! 生誕記念】",
+    "thumbnail": "https://i.ytimg.com/vi/mDwNNCKhd1Y/hqdefault.jpg"
+  },
+  {
+    "id": 1783213153248,
+    "title": "YONA YONA DANCE",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし"
+    ],
+    "youtubeId": "cobdPx0JzsM",
+    "url": "https://www.youtube.com/watch?v=cobdPx0JzsM&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=6",
+    "views": 255847,
+    "date": "2021-10-21",
+    "description": "YONA YONA DANCE 踊ってみた【RAB ESPICE】",
+    "thumbnail": "https://i.ytimg.com/vi/cobdPx0JzsM/hqdefault.jpg"
+  },
+  {
+    "id": 1783213339176,
+    "title": "グッバイ宣言",
+    "members": [
+      "ネス"
+    ],
+    "youtubeId": "yubSsmj-scE",
+    "url": "https://www.youtube.com/watch?v=yubSsmj-scE&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=7",
+    "views": 856469,
+    "date": "2021-03-21",
+    "description": "【まさとめーとるネス】グッバイ宣言　踊ってみた【オリジナル振り付け】",
+    "thumbnail": "https://i.ytimg.com/vi/yubSsmj-scE/hqdefault.jpg"
+  },
+  {
+    "id": 1783213473983,
+    "title": "シャンティ(超学生ver.)",
+    "members": [
+      "ネス"
+    ],
+    "youtubeId": "xvmTpjePh-E",
+    "url": "https://www.youtube.com/watch?v=xvmTpjePh-E&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=8",
+    "views": 747593,
+    "date": "2022-01-30",
+    "description": "シャンティ(超学生ver.)踊ってみた/ネス",
+    "thumbnail": "https://i.ytimg.com/vi/xvmTpjePh-E/hqdefault.jpg"
+  },
+  {
+    "id": 1783214098055,
+    "title": "千本桜",
+    "members": [
+      "ネス",
+      "とぅーし"
+    ],
+    "youtubeId": "d4Rz8mZQtiA",
+    "url": "https://www.youtube.com/watch?v=d4Rz8mZQtiA&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=9",
+    "views": 743659,
+    "date": "2020-08-07",
+    "description": "史上最強の『千本桜』踊ってみた/Senbonzakura dance Choreography",
+    "thumbnail": "https://i.ytimg.com/vi/d4Rz8mZQtiA/hqdefault.jpg"
+  },
+  {
+    "id": 1783214255071,
+    "title": "群青/YOASOBI",
+    "members": [
+      "ネス"
+    ],
+    "youtubeId": "51E4Kj0zOTA",
+    "url": "https://www.youtube.com/watch?v=51E4Kj0zOTA&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=10",
+    "views": 634100,
+    "date": "2021-01-30",
+    "description": "【RABネス】群青/YOASOBI【踊ってみた】",
+    "thumbnail": "https://i.ytimg.com/vi/51E4Kj0zOTA/hqdefault.jpg"
+  },
+  {
+    "id": 1783214636262,
+    "title": "＋♂",
+    "members": [
+      "ネス"
+    ],
+    "youtubeId": "W9VRajl-7jA",
+    "url": "https://www.youtube.com/watch?v=W9VRajl-7jA&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=11",
+    "views": 545701,
+    "date": "2020-01-30",
+    "description": "【ネスbirthday】＋♂　ウザさＭＡＸで踊ってみたった【リアルアキバボーイズ】",
+    "thumbnail": "https://i.ytimg.com/vi/W9VRajl-7jA/hqdefault.jpg"
+  },
+  {
+    "id": 1783214829478,
+    "title": "Bubble feat.Uta",
+    "members": [
+      "ゾマやかじゃない!"
+    ],
+    "youtubeId": "zN4JbwuNb9A",
+    "url": "https://www.youtube.com/watch?v=zN4JbwuNb9A&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=12",
+    "views": 73821,
+    "date": "2022-05-27",
+    "description": "Bubble feat.Uta /踊ってみた 【オリジナル振付】",
+    "thumbnail": "https://i.ytimg.com/vi/zN4JbwuNb9A/hqdefault.jpg"
+  },
+  {
+    "id": 1783214962310,
+    "title": "Los！Los！ Los！",
+    "members": [
+      "とぅーし"
+    ],
+    "youtubeId": "n3pnL97yVYo",
+    "url": "https://www.youtube.com/watch?v=n3pnL97yVYo&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=13",
+    "views": 480629,
+    "date": "2020-03-18",
+    "description": "Los！Los！ Los！ 踊ってみた【リアルアキバボーイズ】The Saga of Tanya the Evil Opening Dance",
+    "thumbnail": "https://i.ytimg.com/vi/n3pnL97yVYo/hqdefault.jpg"
+  },
+  {
+    "id": 1783215128765,
+    "title": "ヴァンパイア feat. 初音ミク",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし"
+    ],
+    "youtubeId": "eq0XgcsJasE",
+    "url": "https://www.youtube.com/watch?v=eq0XgcsJasE&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=14",
+    "views": 561254,
+    "date": "2021-06-16",
+    "description": "ヴァンパイアになって踊ってみた 【RAB ESPICE】",
+    "thumbnail": "https://i.ytimg.com/vi/eq0XgcsJasE/hqdefault.jpg"
+  },
+  {
+    "id": 1783215291766,
+    "title": "フォニイ(戌亥とこver.)",
+    "members": [
+      "ネス"
+    ],
+    "youtubeId": "GLNeGR7hbRo",
+    "url": "https://www.youtube.com/watch?v=GLNeGR7hbRo&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=15",
+    "views": 485907,
+    "date": "2022-01-30",
+    "description": "フォニイ(戌亥とこver.)踊ってみた/ネス",
+    "thumbnail": "https://i.ytimg.com/vi/GLNeGR7hbRo/hqdefault.jpg"
+  },
+  {
+    "id": 1783215632045,
+    "title": "ECHO",
+    "members": [
+      "とぅーし"
+    ],
+    "youtubeId": "-Qira780k10",
+    "url": "https://www.youtube.com/watch?v=-Qira780k10&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=16",
+    "views": 459685,
+    "date": "2020-09-17",
+    "description": "【とぅーし】指だけでECHO踊ってみた【フィンガータット/finger tutting】",
+    "thumbnail": "https://i.ytimg.com/vi/-Qira780k10/hqdefault.jpg"
+  },
+  {
+    "id": 1783215763909,
+    "title": "ヒトガタ/HIMEHINA",
+    "members": [
+      "とぅーし"
+    ],
+    "youtubeId": "JW5xKjckIy0",
+    "url": "https://www.youtube.com/watch?v=JW5xKjckIy0&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=17",
+    "views": 713560,
+    "date": "2019-12-11",
+    "description": "【RAB】ヒトガタ/HIMEHINA【とぅーし】",
+    "thumbnail": "https://i.ytimg.com/vi/JW5xKjckIy0/hqdefault.jpg"
+  },
+  {
+    "id": 1783215898077,
+    "title": "ラブカ？",
+    "members": [
+      "とぅーし"
+    ],
+    "youtubeId": "cin9rBRRcAo",
+    "url": "https://www.youtube.com/watch?v=cin9rBRRcAo&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=18",
+    "views": 462968,
+    "date": "2020-03-03",
+    "description": "【BL】ラブカ？ 踊ってみた【腐男女×とぅーし】",
+    "thumbnail": "https://i.ytimg.com/vi/cin9rBRRcAo/hqdefault.jpg"
+  },
+  {
+    "id": 1783215975301,
+    "title": "エイリアンエイリアン",
+    "members": [
+      "ネス"
+    ],
+    "youtubeId": "uZ5v1oFs79Y",
+    "url": "https://www.youtube.com/watch?v=uZ5v1oFs79Y&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=19",
+    "views": 383019,
+    "date": "2019-10-26",
+    "description": "新メンバー『ネス』！エイリアンエイリアンを踊ってみた",
+    "thumbnail": "https://i.ytimg.com/vi/uZ5v1oFs79Y/hqdefault.jpg"
+  },
+  {
+    "id": 1783216200380,
+    "title": "Bad Apple!!",
+    "members": [
+      "ネス",
+      "とぅーし"
+    ],
+    "youtubeId": "qsboFwReL34",
+    "url": "https://www.youtube.com/watch?v=qsboFwReL34&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=20",
+    "views": 1395302,
+    "date": "2021-09-24",
+    "description": "オタクがBad Apple!!雑コスして踊ってみたったwwwww",
+    "thumbnail": "https://i.ytimg.com/vi/qsboFwReL34/hqdefault.jpg"
+  },
+  {
+    "id": 1783216636700,
+    "title": "スキスキ星人／すとぷり",
+    "members": [
+      "ゾマやかじゃない!"
+    ],
+    "youtubeId": "4NlnuxY2Tk4",
+    "url": "https://www.youtube.com/watch?v=4NlnuxY2Tk4&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=21",
+    "views": 389123,
+    "date": "2020-12-22",
+    "description": "スキスキ星人／すとぷり　踊ってみた 【制服コスプレ】",
+    "thumbnail": "https://i.ytimg.com/vi/4NlnuxY2Tk4/hqdefault.jpg"
+  },
+  {
+    "id": 1783216738995,
+    "title": "The Biggest Dreamer",
+    "members": [
+      "ネス",
+      "ゾマやかじゃない!",
+      "とぅーし"
+    ],
+    "youtubeId": "zDdI7PW_VY0",
+    "url": "https://www.youtube.com/watch?v=zDdI7PW_VY0&list=PLQbXVZ8d6fGAOojzGWU9zDgUIAd8Fg1vL&index=22",
+    "views": 102084,
+    "date": "2021-11-28",
+    "description": "The Biggest Dreamer 踊ってみた【デジモンテイマーズ】",
+    "thumbnail": "https://i.ytimg.com/vi/zDdI7PW_VY0/hqdefault.jpg"
+  }
+]
